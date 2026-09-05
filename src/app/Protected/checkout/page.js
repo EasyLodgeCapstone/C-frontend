@@ -1,5 +1,7 @@
+import { Suspense } from "react";
 import NavBar from "../../../../Commponets/Header/NavBar";
 import CheckoutPage from "./checkout";
+import Loading from "./Comp/Loading";
 
 export const metaData = {
   title: "Checkout  | BB",
@@ -21,8 +23,16 @@ export const metaData = {
 export default function checkout() {
   return (
     <div className="m-4">
-      <NavBar />
-      <CheckoutPage />
+      <Suspense
+        fallback={
+          <div className="min-h-screen bg-white flex items-center justify-center">
+            <Loading />
+          </div>
+        }
+      >
+        <NavBar />
+        <CheckoutPage />
+      </Suspense>
     </div>
   );
 }
