@@ -1,84 +1,49 @@
 import { NextResponse } from "next/server";
 
-const PUBLIC_ROUTES = ["/Public"];
-const AUTH_ROUTES = ["/Auth"];
-const PROTECTED_ROUTES = ["/Protected"];
-const ADMIN_ROUTES = ["/Admin"];
-
 export function middleware(request) {
-  // get token from cookies or local storage
-  // const token = request.cookies.get("token")?.value ;
-  const adminToken = request.cookies.get("adminToken")?.value;
-
-  // Get pathname from request
   const { pathname } = request.nextUrl;
+  
+  // Only admin auth exists for now
+  const adminToken = request.cookies.get("adminToken")?.value;
+  const isAdmin = !!adminToken;
 
-  // check if the user accesed the public routes
+  // Define route types
+  const isMainPage = pathname === "/";
+  const isPublicPath = pathname.startsWith("/Public");
+  const isAuthPath = pathname.startsWith("/Auth");
+  const isProtectedPath = pathname.startsWith("/Protected");
+  const isAdminPath = pathname.startsWith("/Admin");
+  const isApiPath = pathname.startsWith("/api");
 
-  // Check if route is public (no auth required)
-  const isPublicRoute = PUBLIC_ROUTES.some(
-    (route) => pathname === route || pathname.startsWith(route + "/Public"),
-  );
-
-  // Check if route is auth page (login, register, etc.)
-  const isAuthRoute = AUTH_ROUTES.some(
-    (route) => pathname === route || pathname.startsWith(route + "/Auth"),
-  );
-
-  // Check if route is protected (requires auth)
-  const isProtectedRoute = PROTECTED_ROUTES.some(
-    (route) => pathname === route || pathname.startsWith(route + "/Protected"),
-  );
-
-  // Check if it's an admin route
-  const isAdminRoute = ADMIN_ROUTES.some(
-    (route) => pathname === route || pathname.startsWith(route + "/Admin"),
-  );
-
-  // Check if user is authenticated (has token OR refreshToken)
-  const isAuthenticated = !!adminToken;
-
-  if (isPublicRoute || isProtectedRoute) {
+  //  Allow: Main page, Public pages, API routes
+  if (isMainPage || isPublicPath || isApiPath) {
     return NextResponse.next();
   }
 
-  const publicPaths = ["/Public", "/Auth", "/Protected"];
-
-  if (
-    !isAuthenticated &&
-    !publicPaths.some((path) => pathname.startsWith(path))
-  ) {
-    return NextResponse.redirect(new URL("/", request.url));
+  //  Auth routes: redirect to home if admin is already logged in
+  if (isAuthPath && isAdmin) {
+    return NextResponse.redirect(new URL("/Admin/dashboard", request.url));
   }
 
-  if (isAdminRoute) {
-    if (!adminToken) {
-      //   console.log(`[Middleware] 🔒 Unauthenticated user blocked from admin route: ${pathname} - Redirecting to admin login`);
-      const loginUrl = new URL("/Auth/Admin/login", request.url);
-      loginUrl.searchParams.set("from", pathname);
-      return NextResponse.redirect(loginUrl);
-    }
+  //  Protected routes: For now, just allow access (no user auth yet)
+  // Later when you add user auth, add: && !isAuthenticated
+  if (isProtectedPath) {
     return NextResponse.next();
   }
 
-  if (isAuthRoute) {
-    if (adminToken) {
-      // console.log(`[Middleware] 🔒 Auth route blocked for admin: ${pathname} - Redirecting to admin dashboard`);
-      return NextResponse.redirect(new URL("/Admin/dashboard", request.url));
-    }
+  //  Admin routes: redirect to admin login if not admin
+  if (isAdminPath && !isAdmin) {
+    const loginUrl = new URL("/Auth/Admin/login", request.url);
+    loginUrl.searchParams.set("from", pathname);
+    return NextResponse.redirect(loginUrl);
   }
+
+  //  Allow everything else
+  return NextResponse.next();
 }
 
-// Optional: Configure which paths trigger the middleware
 export const config = {
-    matcher: [
-        /*
-         * Match all request paths except:
-         * - _next/static (static files)
-         * - _next/image (image optimization files)
-         * - favicon.ico (favicon file)
-         * - public folder
-         */
-        "/((?!_next/static|_next/image|favicon.ico|.*\\.(?:svg|png|jpg|jpeg|gif|webp)$).*)",
-    ],
+  matcher: [
+    "/((?!_next/static|_next/image|favicon.ico|.*\\.(?:svg|png|jpg|jpeg|gif|webp)$).*)",
+  ],
 };
