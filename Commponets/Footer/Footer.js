@@ -119,7 +119,7 @@ export default function Footer() {
           {/* Brand Section */}
           <div className="space-y-4">
             <div className="flex items-center gap-3">
-              <div className="w-10 h-10 bg-black rounded-full flex items-center justify-center text-white text-xl shadow-lg">
+              <div className="w-10 h-10 rounded-full flex items-center justify-center text-xl shadow-lg">
                 <Image
                   src="/logo/WhatsApp Image 2026-09-05 at 9.10.32 AM.jpeg"
                   alt="Logo"

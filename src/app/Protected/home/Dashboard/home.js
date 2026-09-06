@@ -175,7 +175,7 @@ export default function Home() {
             {/* Logo */}
             <header className="relative">
               <div className="flex items-center gap-2">
-                <div className="w-12 h-12 bg-black rounded-full flex items-center justify-center text-white text-2xl shadow-lg">
+                <div className="w-12 h-12 rounded-full flex items-center justify-center text-2xl shadow-lg">
                   <Image
                     src="/logo/WhatsApp Image 2026-09-05 at 9.10.32 AM.jpeg"
                     alt="Logo"

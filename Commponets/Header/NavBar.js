@@ -148,7 +148,7 @@ export default function NavBar() {
           <div className="flex justify-between items-center">
             {/* Logo Section */}
             <Link href="/Public/home" className="flex items-center gap-3 group">
-              <div className="w-10 h-10 bg-black rounded-full flex items-center justify-center text-white text-xl shadow-lg transition-transform group-hover:scale-110">
+              <div className="w-10 h-10  rounded-full flex items-center justify-center  text-xl shadow-lg transition-transform group-hover:scale-110">
                 <Image
                   src="/logo/WhatsApp Image 2026-09-05 at 9.10.32 AM.jpeg"
                   alt="Logo"
