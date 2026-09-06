@@ -10,6 +10,8 @@ import {
   Playfair_Display,
 } from "next/font/google";
 import Image from "next/image";
+import { useAuthGuard } from "../AuthGuard/AuthGuard";
+import { api } from "@/app/api/auth/verify/api";
 
 const dancing = Dancing_Script({
   subsets: ["latin"],
@@ -33,13 +35,14 @@ const playfair = Playfair_Display({
 
 export default function NavBar() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
-  const [isAuthenticated, setIsAuthenticated] = useState(false);
-  const [isLoading, setIsLoading] = useState(true);
   const [cartCount, setCartCount] = useState(0);
   const [showComingSoon, setShowComingSoon] = useState(false);
   const [comingSoonMessage, setComingSoonMessage] = useState("");
   const pathname = usePathname();
   const router = useRouter();
+
+  // Get auth data from AuthGuard
+  const { user, isAuthenticated, loading, isGuest } = useAuthGuard();
 
   const navLinks = [
     { name: "Home", path: "/Protected/home" },
@@ -51,66 +54,34 @@ export default function NavBar() {
 
   const isActive = (path) => pathname === path;
 
-  // Auth check
-  useEffect(() => {
-    const checkAuth = async () => {
-      try {
-        const response = await fetch("/api/auth/verify", {
-          method: "GET",
-          credentials: "include",
-        });
+  // // Fetch cart count only for authenticated users (not guests)
+  // useEffect(() => {
+  //   if (isAuthenticated && !isGuest) {
+  //     const fetchCart = async () => {
+  //       try {
+  //         const response = await fetch("/api/cart", {
+  //           method: "GET",
+  //           credentials: "include",
+  //         });
 
-        const data = await response.json();
+  //         if (response.ok) {
+  //           const data = await response.json();
+  //           if (data.items) {
+  //             const total = data.items.reduce(
+  //               (sum, item) => sum + (item.quantity || 1),
+  //               0,
+  //             );
+  //             setCartCount(total);
+  //           }
+  //         }
+  //       } catch (error) {
+  //         console.error("Failed to fetch cart:", error);
+  //       }
+  //     };
 
-        if (!response.ok || !data.valid) {
-          setIsAuthenticated(false);
-          return;
-        }
-
-        const userData = data.user || data.data;
-
-        if (userData) {
-          setIsAuthenticated(true);
-        } else {
-          setIsAuthenticated(false);
-        }
-      } catch (error) {
-        console.error("Auth check failed:", error);
-        setIsAuthenticated(false);
-      } finally {
-        setIsLoading(false);
-      }
-    };
-
-    checkAuth();
-  }, []);
-
-  // Fetch cart count
-  useEffect(() => {
-    const fetchCart = async () => {
-      try {
-        const response = await fetch("/api/cart", {
-          method: "GET",
-          credentials: "include",
-        });
-
-        if (response.ok) {
-          const data = await response.json();
-          if (data.items) {
-            const total = data.items.reduce(
-              (sum, item) => sum + (item.quantity || 1),
-              0,
-            );
-            setCartCount(total);
-          }
-        }
-      } catch (error) {
-        console.error("Failed to fetch cart:", error);
-      }
-    };
-
-    fetchCart();
-  }, []);
+  //     fetchCart();
+  //   }
+  // }, [isAuthenticated, isGuest]);
 
   const handleComingSoon = (type) => {
     if (type === "login") {
@@ -124,22 +95,21 @@ export default function NavBar() {
     }, 3000);
   };
 
-  // const handleLogout = async () => {
-  //   try {
-  //     const response = await fetch("/api/auth/logout", {
-  //       method: "POST",
-  //       credentials: "include",
-  //     });
+  const handleLogout = async () => {
+    try {
+      const response = await api.auth.logout();
 
-  //     if (response.ok) {
-  //       setIsAuthenticated(false);
-  //       setCartCount(0);
-  //       router.push("/Protected/home");
-  //     }
-  //   } catch (error) {
-  //     console.error("Logout failed:", error);
-  //   }
-  // };
+      if (response.ok) {
+        router.push("/");
+        router.refresh(); // Refresh to update auth state
+      }
+    } catch (error) {
+      console.error("Logout failed:", error);
+    }
+  };
+
+  // Determine if user is actually logged in (not a guest)
+  const isLoggedIn = isAuthenticated && !isGuest;
 
   return (
     <>
@@ -147,13 +117,17 @@ export default function NavBar() {
         <div className="container mx-auto px-4 py-3 max-w-7xl">
           <div className="flex justify-between items-center">
             {/* Logo Section */}
-            <Link href="/Protected/home" className="flex items-center gap-3 group">
-              <div className="w-10 h-10  rounded-full flex items-center justify-center  text-xl shadow-lg transition-transform group-hover:scale-110">
+            <Link
+              href="/Protected/home"
+              className="flex items-center gap-3 group"
+            >
+              <div className="w-10 h-10 rounded-full flex items-center justify-center text-xl shadow-lg transition-transform group-hover:scale-110">
                 <Image
                   src="/logo/WhatsApp Image 2026-09-05 at 9.10.32 AM.jpeg"
                   alt="Logo"
                   width={24}
                   height={24}
+                  className="rounded-full"
                 />
               </div>
               <div>
@@ -191,8 +165,8 @@ export default function NavBar() {
                 </Link>
               ))}
 
-              {/* Cart Icon - Only show when authenticated */}
-              {!isLoading && isAuthenticated && (
+              {/* Cart Icon - Only show when LOGGED IN (not guest) */}
+              {isLoggedIn && (
                 <Link
                   href="/Protected/cart"
                   className="ml-4 p-2 text-gray-600 hover:text-black transition-colors relative"
@@ -218,24 +192,24 @@ export default function NavBar() {
                 </Link>
               )}
 
-              {/* Auth Section - Conditional Rendering */}
-              {isLoading ? (
+              {/* Auth Section */}
+              {loading ? (
                 // Loading state
                 <div className="ml-4 w-8 h-8 border-2 border-gray-300 border-t-black rounded-full animate-spin" />
-              ) : isAuthenticated ? (
-                // Logged in - Show user profile
+              ) : isLoggedIn ? (
+                //  LOGGED IN - Show user profile
                 <div className="ml-4 flex items-center gap-3">
                   <Link
                     href="/Protected/profile"
                     className="flex items-center gap-2 group"
                   >
                     <div className="w-8 h-8 bg-black rounded-full flex items-center justify-center text-white text-sm font-semibold">
-                      U
+                      {user?.name ? user.name[0].toUpperCase() : "U"}
                     </div>
                     <span
                       className={`${raleway.className} text-sm text-gray-700 group-hover:text-black transition-colors hidden lg:block`}
                     >
-                      Account
+                      {user?.name || "Account"}
                     </span>
                   </Link>
                   <button
@@ -246,7 +220,7 @@ export default function NavBar() {
                   </button>
                 </div>
               ) : (
-                // Not logged in - Show Login/Signup with Coming Soon
+                //  GUEST or NOT LOGGED IN - Show Login/Signup
                 <div className="ml-4 flex items-center gap-2">
                   <button
                     onClick={() => handleComingSoon("login")}
@@ -313,8 +287,8 @@ export default function NavBar() {
               ))}
 
               <div className="flex flex-col gap-2 pt-4 border-t border-gray-200">
-                {/* Cart in mobile - Only show when authenticated */}
-                {!isLoading && isAuthenticated && (
+                {/* Cart in mobile - Only show when LOGGED IN */}
+                {isLoggedIn && (
                   <Link
                     href="/Protected/cart"
                     onClick={() => setIsMenuOpen(false)}
@@ -347,11 +321,12 @@ export default function NavBar() {
                 )}
 
                 {/* Auth in mobile */}
-                {isLoading ? (
+                {loading ? (
                   <div className="flex justify-center py-2">
                     <div className="w-6 h-6 border-2 border-gray-300 border-t-black rounded-full animate-spin" />
                   </div>
-                ) : isAuthenticated ? (
+                ) : isLoggedIn ? (
+                  //  LOGGED IN - Mobile profile
                   <>
                     <Link
                       href="/Protected/profile"
@@ -359,10 +334,10 @@ export default function NavBar() {
                       className="flex items-center gap-3 px-4 py-2 text-gray-700 hover:bg-gray-100 rounded-lg transition-colors"
                     >
                       <div className="w-8 h-8 bg-black rounded-full flex items-center justify-center text-white text-sm font-semibold">
-                        U
+                        {user?.name ? user.name[0].toUpperCase() : "U"}
                       </div>
                       <span className={`${raleway.className} text-sm`}>
-                        My Account
+                        {user?.name || "My Account"}
                       </span>
                     </Link>
                     <button
@@ -376,6 +351,7 @@ export default function NavBar() {
                     </button>
                   </>
                 ) : (
+                  //  GUEST - Mobile login/signup
                   <>
                     <button
                       onClick={() => {
@@ -406,15 +382,11 @@ export default function NavBar() {
       {/* Coming Soon Popup/Modal */}
       {showComingSoon && (
         <div className="fixed inset-0 flex items-center justify-center z-[100] px-4">
-          {/* Backdrop */}
           <div
             className="absolute inset-0 bg-black/50 backdrop-blur-sm"
             onClick={() => setShowComingSoon(false)}
           />
-
-          {/* Modal Content */}
           <div className="relative bg-white rounded-2xl shadow-2xl max-w-md w-full p-8 transform animate-scale-up">
-            {/* Close button */}
             <button
               onClick={() => setShowComingSoon(false)}
               className="absolute top-4 right-4 text-gray-400 hover:text-black transition-colors"
@@ -433,36 +405,25 @@ export default function NavBar() {
                 />
               </svg>
             </button>
-
             <div className="text-center">
-              {/* Icon */}
               <div className="text-6xl mb-4 animate-bounce">🚀</div>
-
-              {/* Title */}
               <h3
                 className={`${playfair.className} text-3xl font-bold text-black mb-2`}
               >
                 Coming Soon!
               </h3>
-
-              {/* Message */}
               <p className={`${raleway.className} text-gray-600 text-lg mb-4`}>
                 {comingSoonMessage}
               </p>
-
-              {/* Sub message */}
               <p className={`${caveat.className} text-gray-400 text-sm`}>
                 We`re working hard to bring you this feature ✨
               </p>
-
-              {/* Decorative line */}
               <div className="w-16 h-1 bg-black mx-auto mt-4" />
             </div>
           </div>
         </div>
       )}
 
-      {/* Add animation styles */}
       <style jsx>{`
         @keyframes scale-up {
           from {

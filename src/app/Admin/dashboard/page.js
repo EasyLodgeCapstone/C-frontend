@@ -1,3 +1,5 @@
+import { AuthGuard } from "../../../../Commponets/AuthGuard/AuthGuard";
+
 export const metaData = {
   title: "Admin Dashboard | BB",
   description: "Welcome to the Admin Dashboard of our application.",
@@ -17,8 +19,8 @@ export const metaData = {
 
 export default function dashboard() {
     return (
-        <div>
+         <AuthGuard requiredRole="admin">
             <h1>Admin Dashboard</h1>
-        </div>
+        </AuthGuard>
     );
 }

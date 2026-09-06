@@ -2,6 +2,7 @@ import { Suspense } from "react";
 import NavBar from "../../../../../../Commponets/Header/NavBar";
 import ProductPage from "./productPage";
 import Loading from "./Comp/Loading";
+import { AuthGuard } from "../../../../../../Commponets/AuthGuard/AuthGuard";
 
 export const metaData = {
   title: "Product  | BB",
@@ -22,17 +23,19 @@ export const metaData = {
 
 export default function products() {
   return (
-    <div className="m-4">
-      <Suspense
-        fallback={
-          <div className="min-h-screen bg-white flex items-center justify-center">
-            <Loading />
-          </div>
-        }
-      >
-        <NavBar />
-        <ProductPage />
-      </Suspense>
-    </div>
+    <AuthGuard requiredRole="client">
+      <div className="m-4">
+        <Suspense
+          fallback={
+            <div className="min-h-screen bg-white flex items-center justify-center">
+              <Loading />
+            </div>
+          }
+        >
+          <NavBar />
+          <ProductPage />
+        </Suspense>
+      </div>
+    </AuthGuard>
   );
 }

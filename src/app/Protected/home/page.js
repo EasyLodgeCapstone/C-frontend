@@ -3,6 +3,7 @@ import Footer from "../../../../Commponets/Footer/Footer";
 import NavBar from "../../../../Commponets/Header/NavBar";
 import Home from "./Dashboard/home";
 import Loading from "../checkout/Comp/Loading";
+import { AuthGuard } from "../../../../Commponets/AuthGuard/AuthGuard";
 
 export const metaData = {
   title: "Home  | BB",
@@ -24,18 +25,20 @@ export const metaData = {
 
 export default function dashboard() {
   return (
-    <div className="m-4">
-      <Suspense
-        fallback={
-          <div className="min-h-screen bg-white flex items-center justify-center">
-            <Loading />
-          </div>
-        }
-      >
-        <NavBar />
-        <Home />
-        <Footer />
-      </Suspense>
-    </div>
+    <AuthGuard requiredRole="client">
+      <div className="m-4">
+        <Suspense
+          fallback={
+            <div className="min-h-screen bg-white flex items-center justify-center">
+              <Loading />
+            </div>
+          }
+        >
+          <NavBar />
+          <Home />
+          <Footer />
+        </Suspense>
+      </div>
+    </AuthGuard>
   );
 }

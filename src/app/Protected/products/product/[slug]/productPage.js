@@ -11,6 +11,7 @@ import {
   Caveat,
 } from "next/font/google";
 import Loading from "./Comp/Loading";
+import { useAuthGuard } from "../../../../../../Commponets/AuthGuard/AuthGuard";
 
 const playfair = Playfair_Display({
   subsets: ["latin"],
@@ -36,44 +37,21 @@ export default function ProductPage() {
   const params = useParams();
   const router = useRouter();
   const productId = params.id || params.slug || params._id;
+  
+  //  Get auth state from AuthGuard
+  const { user, isAuthenticated, loading: authLoading, isGuest } = useAuthGuard();
+  
+  // Determine if user is actually logged in (not a guest)
+  const isLoggedIn = isAuthenticated && !isGuest;
 
   const [product, setProduct] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const [quantity, setQuantity] = useState(1);
   const [selectedImage, setSelectedImage] = useState(0);
-  const [isAuthenticated, setIsAuthenticated] = useState(false);
-  const [authLoading, setAuthLoading] = useState(true);
   const [showLoginPrompt, setShowLoginPrompt] = useState(false);
   const [showComingSoon, setShowComingSoon] = useState(false);
   const [comingSoonMessage, setComingSoonMessage] = useState("");
-
-  // Check authentication
-  useEffect(() => {
-    const checkAuth = async () => {
-      try {
-        const response = await fetch("/api/auth/verify", {
-          method: "GET",
-          credentials: "include",
-        });
-
-        const data = await response.json();
-
-        if (response.ok && data.valid) {
-          setIsAuthenticated(true);
-        } else {
-          setIsAuthenticated(false);
-        }
-      } catch (error) {
-        console.error("Auth check failed:", error);
-        setIsAuthenticated(false);
-      } finally {
-        setAuthLoading(false);
-      }
-    };
-
-    checkAuth();
-  }, []);
 
   // Dummy products matching your DB structure
   const getDummyProducts = () => {
@@ -227,8 +205,10 @@ export default function ProductPage() {
     }, 3000);
   };
 
+  //  Handle Add to Cart - Only for logged in users
   const handleAddToCart = async () => {
-    if (!isAuthenticated) {
+    // Check if user is logged in (not guest)
+    if (!isLoggedIn) {
       setShowLoginPrompt(true);
       setTimeout(() => setShowLoginPrompt(false), 3000);
       return;
@@ -429,7 +409,9 @@ export default function ProductPage() {
                     <>
                       <span className="text-gray-300">|</span>
                       <span
-                        className={`${raleway.className} text-sm ${product.stockQuantity > 0 ? "text-green-600" : "text-red-600"}`}
+                        className={`${raleway.className} text-sm ${
+                          product.stockQuantity > 0 ? "text-green-600" : "text-red-600"
+                        }`}
                       >
                         {product.stockQuantity} units available
                       </span>
@@ -573,10 +555,10 @@ export default function ProductPage() {
               </div>
             )}
 
-            {/* Add to Cart / Buy Now - Conditional */}
+            {/*  Add to Cart / Buy Now - Conditional based on Login Status */}
             <div className="flex items-center gap-4 mb-4">
-              {/* Quantity Selector - Only for authenticated users */}
-              {isAuthenticated && product.isInStock && (
+              {/* Quantity Selector - Only for LOGGED IN users (not guests) */}
+              {isLoggedIn && product.isInStock && (
                 <div className="flex items-center border border-gray-200">
                   <button
                     onClick={() => setQuantity(Math.max(1, quantity - 1))}
@@ -602,8 +584,9 @@ export default function ProductPage() {
                 </div>
               )}
 
-              {/* Action Button */}
-              {isAuthenticated ? (
+              {/*  Action Button - Conditional */}
+              {isLoggedIn ? (
+                //  LOGGED IN USER - Show Add to Cart
                 <button
                   onClick={handleAddToCart}
                   disabled={!product.isInStock}
@@ -616,6 +599,7 @@ export default function ProductPage() {
                   {product.isInStock ? "Add to Cart" : "Out of Stock"}
                 </button>
               ) : (
+                // ❌ GUEST or NOT LOGGED IN - Show Buy Now
                 <button
                   onClick={handleBuyNow}
                   className="flex-1 px-6 py-3 bg-black text-white text-xs uppercase tracking-wider hover:bg-gray-800 transition-colors"
@@ -625,14 +609,22 @@ export default function ProductPage() {
               )}
             </div>
 
-            {/* Login/Signup Prompt for non-authenticated users */}
-            {!isAuthenticated && (
+            {/*  Auth Status Messages */}
+            {!isLoggedIn && (
               <div className="space-y-2">
-                <p
-                  className={`${raleway.className} text-[10px] uppercase tracking-wider text-gray-400 text-center`}
-                >
-                  Sign in to add to cart
-                </p>
+                {isGuest && isAuthenticated ? (
+                  <p
+                    className={`${raleway.className} text-[10px] uppercase tracking-wider text-gray-400 text-center`}
+                  >
+                    Sign in as a registered user to add to cart
+                  </p>
+                ) : (
+                  <p
+                    className={`${raleway.className} text-[10px] uppercase tracking-wider text-gray-400 text-center`}
+                  >
+                    Sign in to add to cart
+                  </p>
+                )}
                 <div className="flex items-center justify-center gap-4">
                   <button
                     onClick={() => handleComingSoon("login")}

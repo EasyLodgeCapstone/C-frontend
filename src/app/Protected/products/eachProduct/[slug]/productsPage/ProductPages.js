@@ -11,6 +11,7 @@ import {
 import Loading from "../Comp/Loading";
 import { useEffect, useState } from "react";
 import { useParams, useRouter } from "next/navigation";
+import { useAuthGuard } from "../../../../../../../Commponets/AuthGuard/AuthGuard";
 
 const playfair = Playfair_Display({
   subsets: ["latin"],
@@ -240,13 +241,15 @@ export default function EachProductPage() {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const [useDummyData, setUseDummyData] = useState(false);
-  const [isAuthenticated, setIsAuthenticated] = useState(false);
-  const [authLoading, setAuthLoading] = useState(true);
   const params = useParams();
   const router = useRouter();
   const category = params.slug ? decodeURIComponent(params.slug) : "";
-
-  console.log(category);
+  
+  //  Get auth state from AuthGuard
+  const { user, isAuthenticated, loading: authLoading, isGuest } = useAuthGuard();
+  
+  // Determine if user is actually logged in (not a guest)
+  const isLoggedIn = isAuthenticated && !isGuest;
 
   // Pagination states
   const [currentPage, setCurrentPage] = useState(1);
@@ -261,33 +264,6 @@ export default function EachProductPage() {
       router.push("/Protected/products");
     }
   }, [category, router]);
-
-  // Check authentication
-  useEffect(() => {
-    const checkAuth = async () => {
-      try {
-        const response = await fetch("/api/auth/verify", {
-          method: "GET",
-          credentials: "include",
-        });
-
-        const data = await response.json();
-
-        if (response.ok && data.valid) {
-          setIsAuthenticated(true);
-        } else {
-          setIsAuthenticated(false);
-        }
-      } catch (error) {
-        console.error("Auth check failed:", error);
-        setIsAuthenticated(false);
-      } finally {
-        setAuthLoading(false);
-      }
-    };
-
-    checkAuth();
-  }, []);
 
   // Fetch products with pagination
   const fetchProducts = async (page = 1, category) => {
@@ -331,7 +307,6 @@ export default function EachProductPage() {
         paginationData = data.pagination || data;
       } else if (Array.isArray(data)) {
         productsData = data;
-        // If array, assume no pagination info from API
         setTotalPages(1);
         setTotalProducts(productsData.length);
         setHasNext(false);
@@ -349,7 +324,6 @@ export default function EachProductPage() {
         setHasPrevious(paginationData.hasPrevious || false);
         setCurrentPage(paginationData.page || page);
       } else {
-        // If no pagination info, calculate based on data
         setTotalPages(Math.ceil(productsData.length / limit) || 1);
         setTotalProducts(productsData.length);
         setHasNext(false);
@@ -402,7 +376,6 @@ export default function EachProductPage() {
   const handlePageChange = (page) => {
     if (page >= 1 && page <= totalPages && page !== currentPage) {
       setCurrentPage(page);
-      // Scroll to top of products section
       document.getElementById("products-grid")?.scrollIntoView({
         behavior: "smooth",
         block: "start",
@@ -463,8 +436,10 @@ export default function EachProductPage() {
     return pageNumbers;
   };
 
+  //  Handle Add to Cart - Only for logged in users
   const handleAddToCart = async (product) => {
-    if (!isAuthenticated) {
+    // Check if user is logged in (not guest)
+    if (!isLoggedIn) {
       router.push("/Auth/login");
       return;
     }
@@ -494,6 +469,7 @@ export default function EachProductPage() {
     router.push(`/Protected/products/product/${product._id}`);
   };
 
+  // Show loading state
   if (loading || authLoading) {
     return (
       <div>
@@ -707,9 +683,10 @@ export default function EachProductPage() {
                         </div>
                       </Link>
 
-                      {/* Buttons - Conditional Rendering based on Auth */}
+                      {/*  Buttons - Conditional Rendering based on Login Status */}
                       <div className="flex gap-2">
-                        {isAuthenticated ? (
+                        {isLoggedIn ? (
+                          //  LOGGED IN USER - Show both buttons
                           <>
                             <Link
                               href={`/Protected/products/product/${product._id}`}
@@ -725,21 +702,29 @@ export default function EachProductPage() {
                             </button>
                           </>
                         ) : (
+                          //  GUEST or NOT LOGGED IN - Show Buy Now only
                           <button
                             onClick={() => handleBuyNow(product)}
-                            className="flex-1 px-4 py-2 bg-black text-white text-sm font-medium rounded-lg hover:bg-gray-800 transition-colors"
+                            className="w-full px-4 py-2 bg-black text-white text-sm font-medium rounded-lg hover:bg-gray-800 transition-colors"
                           >
                             Buy Now
                           </button>
                         )}
                       </div>
 
-                      {/* Auth status indicator */}
-                      {!isAuthenticated && (
+                      {/*  Auth status indicator */}
+                      {!isLoggedIn && (
                         <p
                           className={`${raleway.className} text-xs text-gray-400 mt-2 text-center`}
                         >
                           Sign in to add to cart
+                        </p>
+                      )}
+                      {isGuest && isAuthenticated && (
+                        <p
+                          className={`${raleway.className} text-xs text-gray-400 mt-2 text-center`}
+                        >
+                          Sign in as a registered user to add to cart
                         </p>
                       )}
                     </div>
