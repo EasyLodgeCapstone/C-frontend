@@ -8,7 +8,8 @@ import {
   Raleway,
   Caveat,
 } from "next/font/google";
-import { useAuthGuard } from "../../../../../../Commponets/AuthGuard/AuthGuard";
+import { useAuthGuard } from "../../../../../Commponets/AuthGuard/AuthGuard";
+
 
 const playfair = Playfair_Display({
   subsets: ["latin"],
