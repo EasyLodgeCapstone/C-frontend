@@ -6,6 +6,7 @@ import Link from "next/link";
 import Image from "next/image";
 import { Playfair_Display, Raleway, Caveat } from "next/font/google";
 import Loading from "./Comp/Loading";
+import { useAuthGuard } from "../../../../Commponets/AuthGuard/AuthGuard";
 
 const playfair = Playfair_Display({
   subsets: ["latin"],
@@ -22,10 +23,70 @@ const caveat = Caveat({
   weight: ["400", "700"],
 });
 
+// Dummy products for fallback
+const getDummyProducts = () => {
+  return [
+    {
+      _id: "1",
+      productName: "Gentle Hydrating Cleanser",
+      productDescription: "A mild, soap-free cleanser that removes impurities while maintaining skin's natural moisture balance.",
+      productPrice: 24.99,
+      discountPrice: 19.99,
+      productFeatures: "Deeply cleanses without stripping, pH-balanced, non-comedogenic",
+      texture: "Gel",
+      scent: "Unscented",
+      color: "Clear",
+      packaging: "Pump Bottle",
+      images: ["https://images.unsplash.com/photo-1556228720-195a672e8a03?w=800&h=600&fit=crop"],
+      thumbnailImage: "https://images.unsplash.com/photo-1556228720-195a672e8a03?w=800&h=600&fit=crop",
+      category: "Skin Care",
+      subCategory: "Cleansers",
+    },
+    {
+      _id: "2",
+      productName: "Vitamin C Brightening Serum",
+      productDescription: "Powerful antioxidant serum that brightens skin tone and reduces dark spots.",
+      productPrice: 59.99,
+      discountPrice: 49.99,
+      productFeatures: "Brightens skin, reduces dark spots, antioxidant-rich",
+      texture: "Serum",
+      scent: "Citrus",
+      color: "Light Orange",
+      packaging: "Dropper Bottle",
+      images: ["https://images.unsplash.com/photo-1571781926291-c477ebfd024b?w=800&h=600&fit=crop"],
+      thumbnailImage: "https://images.unsplash.com/photo-1571781926291-c477ebfd024b?w=800&h=600&fit=crop",
+      category: "Skin Care",
+      subCategory: "Serums",
+    },
+    {
+      _id: "3",
+      productName: "Retinol Night Cream",
+      productDescription: "Advanced retinol formula that reduces fine lines and wrinkles while you sleep.",
+      productPrice: 69.99,
+      discountPrice: 59.99,
+      productFeatures: "Reduces fine lines, improves elasticity, promotes cell renewal",
+      texture: "Cream",
+      scent: "Light Floral",
+      color: "White",
+      packaging: "Jar",
+      images: ["https://images.unsplash.com/photo-1556228578-8c89e6adf883?w=800&h=600&fit=crop"],
+      thumbnailImage: "https://images.unsplash.com/photo-1556228578-8c89e6adf883?w=800&h=600&fit=crop",
+      category: "Skin Care",
+      subCategory: "Moisturizers",
+    },
+  ];
+};
+
 export default function CheckoutPage() {
   const searchParams = useSearchParams();
   const router = useRouter();
   const productId = searchParams.get("product");
+
+  //  Get auth state from AuthGuard
+  const { user, isAuthenticated, loading: authLoading, isGuest } = useAuthGuard();
+  
+  // Determine if user is actually logged in (not a guest)
+  const isLoggedIn = isAuthenticated && !isGuest;
 
   const [product, setProduct] = useState(null);
   const [bankAccounts, setBankAccounts] = useState(null);
@@ -35,7 +96,10 @@ export default function CheckoutPage() {
   const [copiedIndex, setCopiedIndex] = useState(null);
   const [userName, setUserName] = useState("");
   const [userEmail, setUserEmail] = useState("");
-  const [userPhone, setUserPhone] = useState("");
+
+  // Derive authenticated customer details without synchronizing state in an effect.
+  const displayedUserName = isLoggedIn ? user?.name || "" : userName;
+  const displayedUserEmail = isLoggedIn ? user?.email || "" : userEmail;
 
   useEffect(() => {
     const fetchProduct = async () => {
@@ -74,7 +138,6 @@ export default function CheckoutPage() {
     };
 
     const fetchBankAccounts = async () => {
-      setLoading(true);
       try {
         const response = await fetch("/api/checkout/accounts", {
           method: "GET",
@@ -89,8 +152,6 @@ export default function CheckoutPage() {
       } catch (err) {
         console.error("Error fetching bank accounts:", err);
         setError("Failed to fetch bank accounts");
-      } finally {
-        setLoading(false);
       }
     };
 
@@ -114,18 +175,20 @@ export default function CheckoutPage() {
     if (product.scent) specs.push(`🌸 Scent: ${product.scent}`);
     if (product.color) specs.push(`🎨 Color: ${product.color}`);
     if (product.packaging) specs.push(`📦 Packaging: ${product.packaging}`);
-    if (product.productFeatures)
-      specs.push(`✨ Features: ${product.productFeatures}`);
+    if (product.productFeatures) specs.push(`✨ Features: ${product.productFeatures}`);
     if (product.category) specs.push(`📂 Category: ${product.category}`);
-    if (product.subCategory)
-      specs.push(`📁 Sub-Category: ${product.subCategory}`);
+    if (product.subCategory) specs.push(`📁 Sub-Category: ${product.subCategory}`);
+
+    //  Include user auth info in message
+    const authStatus = isLoggedIn ? " Registered User" : "👤 Guest User";
 
     // Build the message
     const message = `🛍️ *NEW ORDER*
 
 👤 *Customer Details:*
-Name: ${userName || "Not provided"}
-Email: ${userEmail || "Not provided"}
+Name: ${displayedUserName || "Not provided"}
+Email: ${displayedUserEmail || "Not provided"}
+Status: ${authStatus}
 
 📦 *Product Details:*
 Product: ${product.productName}
@@ -145,7 +208,8 @@ Thank you! 🙏`;
     window.open(url, "_blank");
   };
 
-  if (loading) {
+  //  Show loading state
+  if (loading || authLoading) {
     return (
       <div className="min-h-screen bg-white flex items-center justify-center">
         <Loading />
@@ -205,6 +269,20 @@ Thank you! 🙏`;
           </button>
         </div>
 
+        {/*  Auth Status Badge */}
+        <div className="mb-6">
+          <div className={`inline-flex items-center gap-2 px-3 py-1 rounded-full text-xs ${
+            isLoggedIn 
+              ? "bg-green-50 text-green-700 border border-green-200" 
+              : "bg-yellow-50 text-yellow-700 border border-yellow-200"
+          }`}>
+            <span className={`w-1.5 h-1.5 rounded-full ${
+              isLoggedIn ? "bg-green-500" : "bg-yellow-500"
+            }`}></span>
+            {isLoggedIn ? " Logged in as " + (user?.name || "User") : "👤 Checking out as Guest"}
+          </div>
+        </div>
+
         {/* Customer Details Form */}
         <div className="bg-white rounded-2xl shadow-sm border border-gray-100 p-4 sm:p-6 mb-6">
           <h2
@@ -217,44 +295,36 @@ Thank you! 🙏`;
               <label
                 className={`${raleway.className} text-sm text-gray-600 block mb-1`}
               >
-                Full Name
+                Full Name {isLoggedIn && <span className="text-xs text-green-600">(auto-filled)</span>}
               </label>
               <input
                 type="text"
-                value={userName}
+                value={displayedUserName}
                 onChange={(e) => setUserName(e.target.value)}
                 placeholder="Enter your full name"
-                className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:border-black transition-colors"
+                className={`w-full px-4 py-2 border rounded-lg focus:outline-none focus:border-black transition-colors ${
+                  isLoggedIn ? "border-green-200 bg-green-50/50" : "border-gray-300"
+                }`}
+                readOnly={isLoggedIn}
               />
             </div>
             <div>
               <label
                 className={`${raleway.className} text-sm text-gray-600 block mb-1`}
               >
-                Email Address
+                Email Address {isLoggedIn && <span className="text-xs text-green-600">(auto-filled)</span>}
               </label>
               <input
                 type="email"
-                value={userEmail}
+                value={displayedUserEmail}
                 onChange={(e) => setUserEmail(e.target.value)}
                 placeholder="Enter your email"
-                className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:border-black transition-colors"
+                className={`w-full px-4 py-2 border rounded-lg focus:outline-none focus:border-black transition-colors ${
+                  isLoggedIn ? "border-green-200 bg-green-50/50" : "border-gray-300"
+                }`}
+                readOnly={isLoggedIn}
               />
             </div>
-            {/* <div>
-              <label
-                className={`${raleway.className} text-sm text-gray-600 block mb-1`}
-              >
-                Phone Number
-              </label>
-              <input
-                type="tel"
-                value={userPhone}
-                onChange={(e) => setUserPhone(e.target.value)}
-                placeholder="Enter your phone number"
-                className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:border-black transition-colors"
-              />
-            </div> */}
           </div>
         </div>
 
@@ -398,7 +468,7 @@ Thank you! 🙏`;
                 className={`${raleway.className} text-xs sm:text-sm text-gray-600 leading-relaxed`}
               >
                 Click &apos;Contact sellers on WhatsApp&apos; to notify the seller that
-                you`re interested.
+                you&apos;re interested.
               </p>
             </div>
             <div className="flex items-start gap-3">
@@ -408,7 +478,7 @@ Thank you! 🙏`;
               <p
                 className={`${raleway.className} text-xs sm:text-sm text-gray-600 leading-relaxed`}
               >
-                copy sellers account number and transfer the exact amount.
+                Copy seller&apos;s account number and transfer the exact amount.
               </p>
             </div>
             <div className="flex items-start gap-3">
@@ -418,7 +488,7 @@ Thank you! 🙏`;
               <p
                 className={`${raleway.className} text-xs sm:text-sm text-gray-600 leading-relaxed`}
               >
-                Save your payment receipt and upload it to the seller`s WhatsApp
+                Save your payment receipt and upload it to the seller&apos;s WhatsApp
                 before the seller can confirm your payment.
               </p>
             </div>
@@ -496,14 +566,6 @@ Thank you! 🙏`;
                 Contact Seller on WhatsApp
               </span>
             </button>
-
-            {/* Note about image upload
-            <div className="bg-gray-50 rounded-lg p-3 sm:p-4">
-              <p className={`${caveat.className} text-gray-500 text-xs sm:text-sm text-center`}>
-                📸 After payment, you'll be redirected to WhatsApp where you can 
-                upload your payment receipt as an attachment
-              </p>
-            </div> */}
           </div>
         </div>
 
