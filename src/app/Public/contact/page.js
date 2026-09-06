@@ -1,3 +1,4 @@
+import { AuthGuard } from "../../../../Commponets/AuthGuard/AuthGuard";
 import NavBar from "../../../../Commponets/Header/NavBar";
 import ContactPage from "./Contact/contact";
 
@@ -20,9 +21,11 @@ export const metaData = {
 
 export default function checkout() {
   return (
-    <div className="m-4">
-      <NavBar />
-      <ContactPage />
-    </div>
+    <AuthGuard requiredRole="client">
+      <div className="m-4">
+        <NavBar />
+        <ContactPage />
+      </div>
+    </AuthGuard>
   );
 }
