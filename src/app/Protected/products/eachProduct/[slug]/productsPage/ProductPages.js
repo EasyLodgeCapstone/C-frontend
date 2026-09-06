@@ -256,11 +256,11 @@ export default function EachProductPage() {
   const [hasPrevious, setHasPrevious] = useState(false);
   const [limit, setLimit] = useState(10);
 
-  // useEffect(() => {
-  //   if (!category) {
-  //     router.push("/Protected/products");
-  //   }
-  // }, [category, router]);
+  useEffect(() => {
+    if (!category) {
+      router.push("/Protected/products");
+    }
+  }, [category, router]);
 
   // Check authentication
   useEffect(() => {
