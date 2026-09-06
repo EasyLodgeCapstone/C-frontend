@@ -8,6 +8,7 @@ import {
   Raleway,
   Caveat,
 } from "next/font/google";
+import { useAuthGuard } from "../../../../../../Commponets/AuthGuard/AuthGuard";
 
 const playfair = Playfair_Display({
   subsets: ["latin"],
@@ -30,6 +31,10 @@ const caveat = Caveat({
 });
 
 export default function Products() {
+  //  Get auth state from AuthGuard
+  const { user, isAuthenticated, loading, isGuest } = useAuthGuard();
+  const isLoggedIn = isAuthenticated && !isGuest;
+
   const products = [
     {
       id: 1,
@@ -131,6 +136,37 @@ export default function Products() {
         </div>
       </div>
 
+      {/*  Auth Status Bar - Shows user status */}
+      <div className="border-b border-gray-100 bg-gray-50/50">
+        <div className="container mx-auto px-4 max-w-7xl py-3">
+          <div className="flex items-center justify-between flex-wrap gap-2">
+            <div className="flex items-center gap-3">
+              <span className={`${raleway.className} text-xs text-gray-400 uppercase tracking-wider`}>
+                {loading ? "Checking..." : isLoggedIn ? "👋 Welcome back!" : "👤 Guest"}
+              </span>
+              {isLoggedIn && user && (
+                <span className={`${raleway.className} text-xs text-black font-medium`}>
+                  {user.name || user.email || "User"}
+                </span>
+              )}
+            </div>
+            <div className="flex items-center gap-3">
+              {isLoggedIn ? (
+                <span className="inline-flex items-center gap-1.5 px-3 py-1 bg-green-50 text-green-700 text-[10px] uppercase tracking-wider border border-green-200 rounded-full">
+                  <span className="w-1.5 h-1.5 bg-green-500 rounded-full"></span>
+                  Authenticated
+                </span>
+              ) : (
+                <span className="inline-flex items-center gap-1.5 px-3 py-1 bg-yellow-50 text-yellow-700 text-[10px] uppercase tracking-wider border border-yellow-200 rounded-full">
+                  <span className="w-1.5 h-1.5 bg-yellow-500 rounded-full"></span>
+                  Guest Mode
+                </span>
+              )}
+            </div>
+          </div>
+        </div>
+      </div>
+
       {/* Products Grid - Sophisticated Minimal */}
       <div className="container mx-auto px-4 py-16 max-w-7xl">
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
@@ -194,58 +230,93 @@ export default function Products() {
           ))}
         </div>
 
-        {/* Category Highlights Section */}
-        {/* <div className="mt-20">
-          <div className="text-center mb-12">
-            <h2 className={`${playfair.className} text-3xl md:text-4xl font-light text-black`}>
-              Featured Categories
-            </h2>
-            <div className="w-12 h-0.5 bg-black/20 mx-auto mt-4"></div>
-          </div>
+        {/*  Featured Categories Section - Only show for logged in users */}
+        {isLoggedIn && (
+          <div className="mt-20">
+            <div className="text-center mb-12">
+              <h2 className={`${playfair.className} text-3xl md:text-4xl font-light text-black`}>
+                Featured Categories
+              </h2>
+              <div className="w-12 h-0.5 bg-black/20 mx-auto mt-4"></div>
+              <p className={`${raleway.className} text-sm text-gray-400 mt-3`}>
+                Curated collections for our valued members
+              </p>
+            </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-            {[
-              {
-                name: "Body Enhancement",
-                description: "Premium supplements for muscle growth, recovery, and peak physical performance",
-                icon: "💪",
-                slug: "body-enhancement",
-                bg: "bg-black",
-              },
-              {
-                name: "Aphrodisiacs",
-                description: "Natural blends to enhance intimacy, boost libido, and improve overall vitality",
-                icon: "❤️‍🔥",
-                slug: "aphrodisiacs",
-                bg: "bg-gray-800",
-              },
-            ].map((category) => (
-              <Link
-                key={category.slug}
-                href={`/Protected/products/${category.slug}`}
-                className={`${category.bg} text-white p-10 rounded-2xl transition-all duration-300 hover:scale-105 hover:shadow-2xl group`}
-              >
-                <div className="flex flex-col items-center text-center">
-                  <div className="text-6xl mb-4 group-hover:scale-110 transition-transform duration-300">
-                    {category.icon}
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+              {[
+                {
+                  name: "Body Enhancement",
+                  description: "Premium supplements for muscle growth, recovery, and peak physical performance",
+                  icon: "💪",
+                  slug: "body-enhancement",
+                  bg: "bg-black",
+                },
+                {
+                  name: "Aphrodisiacs",
+                  description: "Natural blends to enhance intimacy, boost libido, and improve overall vitality",
+                  icon: "❤️‍🔥",
+                  slug: "aphrodisiacs",
+                  bg: "bg-gray-800",
+                },
+              ].map((category) => (
+                <Link
+                  key={category.slug}
+                  href={`/Protected/products/${category.slug}`}
+                  className={`${category.bg} text-white p-10 rounded-2xl transition-all duration-300 hover:scale-105 hover:shadow-2xl group`}
+                >
+                  <div className="flex flex-col items-center text-center">
+                    <div className="text-6xl mb-4 group-hover:scale-110 transition-transform duration-300">
+                      {category.icon}
+                    </div>
+                    <h3 className={`${playfair.className} text-2xl md:text-3xl font-light mb-3`}>
+                      {category.name}
+                    </h3>
+                    <p className={`${raleway.className} text-sm font-light text-white/70 max-w-md`}>
+                      {category.description}
+                    </p>
+                    <div className="mt-6 inline-flex items-center gap-2 text-sm font-light tracking-wider border-b border-white/30 pb-1 hover:border-white transition-colors duration-300">
+                      Explore Collection
+                      <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M17 8l4 4m0 0l-4 4m4-4H3" />
+                      </svg>
+                    </div>
                   </div>
-                  <h3 className={`${playfair.className} text-2xl md:text-3xl font-light mb-3`}>
-                    {category.name}
-                  </h3>
-                  <p className={`${raleway.className} text-sm font-light text-white/70 max-w-md`}>
-                    {category.description}
-                  </p>
-                  <div className="mt-6 inline-flex items-center gap-2 text-sm font-light tracking-wider border-b border-white/30 pb-1 hover:border-white transition-colors duration-300">
-                    Explore Collection
-                    <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M17 8l4 4m0 0l-4 4m4-4H3" />
-                    </svg>
-                  </div>
-                </div>
-              </Link>
-            ))}
+                </Link>
+              ))}
+            </div>
           </div>
-        </div> */}
+        )}
+
+        {/*  Guest User Message */}
+        {!isLoggedIn && !loading && (
+          <div className="mt-20 text-center">
+            <div className="max-w-2xl mx-auto bg-gray-50 rounded-2xl p-8 border border-gray-100">
+              <div className="text-4xl mb-4">🔒</div>
+              <h3 className={`${playfair.className} text-2xl font-light text-black mb-2`}>
+                Members Get More
+              </h3>
+              <p className={`${raleway.className} text-sm text-gray-500 mb-4`}>
+                Sign in to access exclusive products, special offers, and personalized recommendations.
+              </p>
+              <div className="flex items-center justify-center gap-4">
+                <button
+                  onClick={() => {/* Handle login */}}
+                  className="px-6 py-2 bg-black text-white text-xs uppercase tracking-wider hover:bg-gray-800 transition-colors"
+                >
+                  Sign In
+                </button>
+                <span className={`${raleway.className} text-xs text-gray-300`}>or</span>
+                <button
+                  onClick={() => {/* Handle signup */}}
+                  className="px-6 py-2 border border-gray-300 text-black text-xs uppercase tracking-wider hover:border-black transition-colors"
+                >
+                  Create Account
+                </button>
+              </div>
+            </div>
+          </div>
+        )}
 
         {/* Bottom Section - Refined */}
         <div className="mt-20 text-center">
