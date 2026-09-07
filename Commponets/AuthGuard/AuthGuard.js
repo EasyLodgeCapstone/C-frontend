@@ -52,7 +52,11 @@ export function AuthGuard({ children, requiredRole = null }) {
 
           // Check role if required
           if (requiredRole && response.user?.role !== requiredRole) {
-            router.push("/unauthorized");
+            if (requiredRole === "client") {
+              router.push("/Auth/login");
+            } else {
+              router.push(`/Auth/Admin/signin?from=${pathname}`);
+            }
             return;
           }
         } else {
@@ -78,9 +82,7 @@ export function AuthGuard({ children, requiredRole = null }) {
   }, [router, pathname, requiredRole]);
 
   if (loading) {
-    return (
-      <LoadingSpinner />
-    );
+    return <LoadingSpinner />;
   }
 
   if (!isAuthenticated) {
@@ -89,7 +91,9 @@ export function AuthGuard({ children, requiredRole = null }) {
 
   // Provide auth data to children via context
   return (
-    <AuthGuardContext.Provider value={{ user, isAuthenticated, loading, isGuest }}>
+    <AuthGuardContext.Provider
+      value={{ user, isAuthenticated, loading, isGuest }}
+    >
       {children}
     </AuthGuardContext.Provider>
   );

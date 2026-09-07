@@ -1,23 +1,22 @@
 // lib/api.js
-const API_URL = process.env.NEXT_PUBLIC_API_URL || "http://localhost:3000";
+const API_URL = process.env.NEXT_PUBLIC_BACKEND_URL || "http://localhost:3000";
 
 export const api = {
   auth: {
     verify: async () => {
       try {
-        const response = await fetch(`${API_URL}/auth/verify`, {
+        const response = await fetch(`/api/auth/admin/verify`, {
           method: "GET",
           credentials: "include",
-          headers: {
-            "Content-Type": "application/json",
-          },
         });
 
         if (!response.ok) {
           throw new Error("Auth verification failed");
         }
+       
 
         const data = await response.json();
+        
         return {
           authenticated: true,
           user: data.user || data.data,
@@ -78,16 +77,12 @@ export const api = {
     logout: async () => {
       try {
         // Use the Next.js API route
-        const response = await fetch('/api/auth/logout', {
-          method: 'POST',
+        const response = await fetch('/api/auth/admin/logout', {
+          method: 'GET',
           credentials: 'include',
         });
 
-        if (!response.ok) {
-          throw new Error('Logout failed');
-        }
-
-        return await response.json();
+        return response;
       } catch (error) {
         console.error("Logout error:", error);
         throw error;
