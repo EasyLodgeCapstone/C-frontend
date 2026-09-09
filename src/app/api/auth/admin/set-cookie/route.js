@@ -20,7 +20,7 @@ export async function POST(request) {
     //  Cookie options for Vercel (Frontend) + Render (Backend)
     const cookieOptions = {
       httpOnly: true,
-      secure: isLocalhost,      // True on Vercel (HTTPS)
+      secure: isProduction,      // True on Vercel (HTTPS)
       sameSite: 'none',          // REQUIRED for cross-origin (Vercel != Render)
       maxAge: 60 * 60 * 24 * 7,  // 1 week
       path: "/",

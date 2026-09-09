@@ -33,208 +33,7 @@ const caveat = Caveat({
   weight: ["400", "700"],
 });
 
-// Dummy facecare products with correct structure
-const dummyProducts = [
-  {
-    _id: "1",
-    productName: "Hydrating Face Cream",
-    productDescription:
-      "Deeply hydrating face cream for all skin types. Formulated with natural ingredients to provide deep, lasting moisture.",
-    productPrice: 49.99,
-    discountPrice: 29.99,
-    productFeatures: "Hydrating, Anti-Aging, SPF 30, Non-Comedogenic",
-    texture: "Cream",
-    scent: "Light Floral",
-    color: "White",
-    packaging: "Jar",
-    images: [
-      "https://images.unsplash.com/photo-1556228720-195a672e8a03?w=600&h=400&fit=crop",
-      "https://images.unsplash.com/photo-1556228453-efd6c1ff04f6?w=600&h=400&fit=crop",
-      "https://images.unsplash.com/photo-1522335789203-aabd1fc54bc9?w=600&h=400&fit=crop",
-    ],
-    thumbnailImage:
-      "https://images.unsplash.com/photo-1556228720-195a672e8a03?w=600&h=400&fit=crop",
-    videoUrl: null,
-    averageRating: 4.9,
-    totalReviews: 128,
-    stockQuantity: 45,
-    isInStock: true,
-    category: "Facecare",
-    subCategory: "Moisturizers",
-    slug: "hydrating-face-cream",
-    emoji: "💧",
-    badge: "Best Seller",
-    shortDescription: "Intense hydration for glowing skin",
-    ingredients: ["Aloe Vera", "Vitamin C", "Hyaluronic Acid", "Shea Butter"],
-    howToUse: ["Apply to clean face", "Massage gently", "Use twice daily"],
-  },
-  {
-    _id: "2",
-    productName: "Vitamin C Serum",
-    productDescription:
-      "Brightening vitamin C serum for radiant skin. Formulated to brighten, even skin tone, and protect against environmental damage.",
-    productPrice: 59.99,
-    discountPrice: 49.99,
-    productFeatures: "Brightening, Antioxidant Rich, Fights Aging, Even Tone",
-    texture: "Serum",
-    scent: "Citrus",
-    color: "Light Orange",
-    packaging: "Dropper Bottle",
-    images: [
-      "https://images.unsplash.com/photo-1571781926291-c477ebfd024b?w=600&h=400&fit=crop",
-      "https://images.unsplash.com/photo-1556228453-efd6c1ff04f6?w=600&h=400&fit=crop",
-      "https://images.unsplash.com/photo-1522335789203-aabd1fc54bc9?w=600&h=400&fit=crop",
-    ],
-    thumbnailImage:
-      "https://images.unsplash.com/photo-1571781926291-c477ebfd024b?w=600&h=400&fit=crop",
-    videoUrl: null,
-    averageRating: 4.8,
-    totalReviews: 96,
-    stockQuantity: 32,
-    isInStock: true,
-    category: "Facecare",
-    subCategory: "Serums",
-    slug: "vitamin-c-serum",
-    emoji: "🍊",
-    badge: "New Arrival",
-    shortDescription: "Brighten and even skin tone",
-    ingredients: ["Vitamin C", "Vitamin E", "Ferulic Acid", "Hyaluronic Acid"],
-    howToUse: ["Apply 2-3 drops", "Massage into skin", "Use in the morning"],
-  },
-  {
-    _id: "3",
-    productName: "Anti-Aging Night Cream",
-    productDescription:
-      "Luxurious night cream for anti-aging benefits. Formulated with potent anti-aging ingredients that work while you sleep.",
-    productPrice: 69.99,
-    discountPrice: null,
-    productFeatures: "Anti-Aging, Deep Hydration, Cell Renewal, Firms Skin",
-    texture: "Rich Cream",
-    scent: "Lavender",
-    color: "White",
-    packaging: "Jar",
-    images: [
-      "https://images.unsplash.com/photo-1556228578-8c89e6adf883?w=600&h=400&fit=crop",
-      "https://images.unsplash.com/photo-1556228453-efd6c1ff04f6?w=600&h=400&fit=crop",
-      "https://images.unsplash.com/photo-1522335789203-aabd1fc54bc9?w=600&h=400&fit=crop",
-    ],
-    thumbnailImage:
-      "https://images.unsplash.com/photo-1556228578-8c89e6adf883?w=600&h=400&fit=crop",
-    videoUrl: null,
-    averageRating: 4.7,
-    totalReviews: 85,
-    stockQuantity: 28,
-    isInStock: true,
-    category: "Facecare",
-    subCategory: "Moisturizers",
-    slug: "anti-aging-night-cream",
-    emoji: "🌙",
-    badge: "Top Rated",
-    shortDescription: "Rejuvenate skin while you sleep",
-    ingredients: ["Retinol", "Peptides", "Hyaluronic Acid", "Niacinamide"],
-    howToUse: ["Apply before bed", "Massage onto face", "Use nightly"],
-  },
-  {
-    _id: "4",
-    productName: "Gentle Face Wash",
-    productDescription:
-      "Gentle face wash for sensitive skin. A mild, soap-free cleanser that removes impurities while maintaining skin's natural balance.",
-    productPrice: 29.99,
-    discountPrice: 19.99,
-    productFeatures: "Gentle, Hypoallergenic, Fragrance Free, Balances pH",
-    texture: "Gel",
-    scent: "Unscented",
-    color: "Clear",
-    packaging: "Pump Bottle",
-    images: [
-      "https://images.unsplash.com/photo-1608248597279-f99d160bfcbc?w=600&h=400&fit=crop",
-      "https://images.unsplash.com/photo-1556228453-efd6c1ff04f6?w=600&h=400&fit=crop",
-      "https://images.unsplash.com/photo-1522335789203-aabd1fc54bc9?w=600&h=400&fit=crop",
-    ],
-    thumbnailImage:
-      "https://images.unsplash.com/photo-1608248597279-f99d160bfcbc?w=600&h=400&fit=crop",
-    videoUrl: null,
-    averageRating: 4.6,
-    totalReviews: 72,
-    stockQuantity: 50,
-    isInStock: true,
-    category: "Facecare",
-    subCategory: "Cleansers",
-    slug: "gentle-face-wash",
-    emoji: "🧼",
-    badge: "Sensitive Skin",
-    shortDescription: "Cleanse without stripping",
-    ingredients: ["Chamomile", "Green Tea", "Aloe Vera", "Glycerin"],
-    howToUse: ["Wet face", "Apply to skin", "Rinse thoroughly"],
-  },
-  {
-    _id: "5",
-    productName: "Exfoliating Scrub",
-    productDescription:
-      "Gentle exfoliating scrub for smooth skin. Natural ingredients help remove dead skin cells and reveal radiant skin.",
-    productPrice: 39.99,
-    discountPrice: null,
-    productFeatures: "Exfoliating, Smooths Skin, Unclogs Pores, Natural",
-    texture: "Scrub",
-    scent: "Fresh",
-    color: "Beige",
-    packaging: "Tube",
-    images: [
-      "https://images.unsplash.com/photo-1556228453-efd6c1ff04f6?w=600&h=400&fit=crop",
-      "https://images.unsplash.com/photo-1556228720-195a672e8a03?w=600&h=400&fit=crop",
-      "https://images.unsplash.com/photo-1522335789203-aabd1fc54bc9?w=600&h=400&fit=crop",
-    ],
-    thumbnailImage:
-      "https://images.unsplash.com/photo-1556228453-efd6c1ff04f6?w=600&h=400&fit=crop",
-    videoUrl: null,
-    averageRating: 4.5,
-    totalReviews: 64,
-    stockQuantity: 35,
-    isInStock: true,
-    category: "Facecare",
-    subCategory: "Exfoliators",
-    slug: "exfoliating-scrub",
-    emoji: "✨",
-    badge: "Exfoliating",
-    shortDescription: "Reveal radiant skin",
-    ingredients: ["Sugar", "Coconut Oil", "Essential Oils", "Vitamin E"],
-    howToUse: ["Apply to damp skin", "Massage gently", "Rinse off"],
-  },
-  {
-    _id: "6",
-    productName: "Eye Cream",
-    productDescription:
-      "Targeted eye cream for dark circles and puffiness. Formulated to brighten, firm, and hydrate the delicate eye area.",
-    productPrice: 44.99,
-    discountPrice: 34.99,
-    productFeatures:
-      "Reduces Dark Circles, Firms Skin, Hydrates, Anti-Puffiness",
-    texture: "Gel",
-    scent: "Unscented",
-    color: "Clear",
-    packaging: "Tube",
-    images: [
-      "https://images.unsplash.com/photo-1522335789203-aabd1fc54bc9?w=600&h=400&fit=crop",
-      "https://images.unsplash.com/photo-1556228720-195a672e8a03?w=600&h=400&fit=crop",
-      "https://images.unsplash.com/photo-1556228453-efd6c1ff04f6?w=600&h=400&fit=crop",
-    ],
-    thumbnailImage:
-      "https://images.unsplash.com/photo-1522335789203-aabd1fc54bc9?w=600&h=400&fit=crop",
-    videoUrl: null,
-    averageRating: 4.4,
-    totalReviews: 58,
-    stockQuantity: 40,
-    isInStock: true,
-    category: "Facecare",
-    subCategory: "Eye Care",
-    slug: "eye-cream",
-    emoji: "👁️",
-    badge: "Eye Care",
-    shortDescription: "Brighten and firm eye area",
-    ingredients: ["Caffeine", "Vitamin C", "Peptides", "Hyaluronic Acid"],
-    howToUse: ["Apply around eyes", "Gently tap in", "Use morning and night"],
-  },
-];
+
 
 export default function EachProductPage() {
   const [products, setProducts] = useState([]);
@@ -279,17 +78,7 @@ export default function EachProductPage() {
 
       if (!response.ok) {
         console.log("API failed, using dummy data");
-        // For dummy data, we'll simulate pagination
-        const startIndex = (page - 1) * limit;
-        const endIndex = startIndex + limit;
-        const paginatedDummy = dummyProducts.slice(startIndex, endIndex);
-        setProducts(paginatedDummy);
-        setTotalPages(Math.ceil(dummyProducts.length / limit));
-        setTotalProducts(dummyProducts.length);
-        setHasNext(endIndex < dummyProducts.length);
-        setHasPrevious(page > 1);
-        setUseDummyData(true);
-        setLoading(false);
+        setError("Failed to fetch products from API.");
         return;
       }
 
@@ -634,19 +423,19 @@ export default function EachProductPage() {
                                 <span
                                   className={`${playfair.className} text-xl font-bold text-red-600 block`}
                                 >
-                                  ${currentPrice.toFixed(2)}
+                                  ₦{currentPrice.toFixed(2)}
                                 </span>
                                 <span
                                   className={`${raleway.className} text-sm text-gray-400 line-through block`}
                                 >
-                                  ${product.productPrice.toFixed(2)}
+                                  ₦{product.productPrice.toFixed(2)}
                                 </span>
                               </>
                             ) : (
                               <span
                                 className={`${playfair.className} text-xl font-bold text-black`}
                               >
-                                ${product.productPrice.toFixed(2)}
+                                ₦{product.productPrice.toFixed(2)}
                               </span>
                             )}
                           </div>

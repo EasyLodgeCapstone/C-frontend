@@ -193,10 +193,10 @@ Status: ${authStatus}
 📦 *Product Details:*
 Product: ${product.productName}
 Description: ${product.productDescription}
-Price: $${product.productPrice.toFixed(2)}
-${product.discountPrice ? `Discount Price: $${product.discountPrice.toFixed(2)}` : ""}
+Price: ₦${product.productPrice.toFixed(2)}
+${product.discountPrice ? `Discount Price: ₦${product.discountPrice.toFixed(2)}` : ""}
 Quantity: ${quantity}
-Total: $${totalPrice}
+Total: ₦${totalPrice}
 
 📋 *Product Specifications:*
 ${specs.join("\n")}
@@ -361,13 +361,13 @@ Thank you! 🙏`;
                   <span
                     className={`${playfair.className} text-base sm:text-lg font-light text-black`}
                   >
-                    ${currentPrice.toFixed(2)}
+                    ₦{currentPrice.toFixed(2)}
                   </span>
                   {product.discountPrice && (
                     <span
                       className={`${raleway.className} text-xs sm:text-sm text-gray-400 line-through`}
                     >
-                      ${product.productPrice.toFixed(2)}
+                      ₦{product.productPrice.toFixed(2)}
                     </span>
                   )}
                   <div className="flex items-center gap-2">
@@ -392,7 +392,7 @@ Thank you! 🙏`;
               <span
                 className={`${playfair.className} text-lg sm:text-xl font-light text-black`}
               >
-                ${(currentPrice * quantity).toFixed(2)}
+                ₦{(currentPrice * quantity).toFixed(2)}
               </span>
             </div>
           </div>

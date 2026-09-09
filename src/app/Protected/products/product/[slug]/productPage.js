@@ -427,13 +427,13 @@ export default function ProductPage() {
                 <span
                   className={`${playfair.className} text-3xl font-light text-black`}
                 >
-                  ${currentPrice.toFixed(2)}
+                  ₦{currentPrice.toFixed(2)}
                 </span>
                 {originalPrice && (
                   <span
                     className={`${raleway.className} text-lg text-gray-400 line-through`}
                   >
-                    ${originalPrice.toFixed(2)}
+                    ₦{originalPrice.toFixed(2)}
                   </span>
                 )}
               </div>
@@ -441,7 +441,7 @@ export default function ProductPage() {
                 <p
                   className={`${raleway.className} text-xs text-green-600 mt-1`}
                 >
-                  Save ${(originalPrice - currentPrice).toFixed(2)}!
+                  Save ₦{(originalPrice - currentPrice).toFixed(2)}!
                 </p>
               )}
             </div>
