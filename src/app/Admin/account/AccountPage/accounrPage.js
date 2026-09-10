@@ -137,7 +137,7 @@ export default function BankAccountsPage() {
       });
 
       if (response.ok) {
-        showToast("✅ Bank account added successfully!", "success");
+        showToast(" Bank account added successfully!", "success");
         setShowCreateModal(false);
         setFormData({ name: "", accNumber: "", bankName: "" });
         fetchAccounts();

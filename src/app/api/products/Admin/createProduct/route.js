@@ -4,37 +4,37 @@ import { cookies } from "next/headers";
 
 export async function POST(request) {
   try {
-    // Get FormData from the request
-    const formData = await request.formData();
+    // ✅ Read JSON body (not FormData)
+    const body = await request.json();
 
-    console.log("=== Form Data Received ===");
-    for (const [key, value] of formData.entries()) {
-      if (value instanceof File) {
-        console.log(`${key}: [File] ${value.name} (${value.size} bytes, ${value.type})`);
-      } else {
-        console.log(`${key}: ${value}`);
-      }
-    }
+    const {
+      productName,
+      productDescription,
+      productPrice,
+      discountPrice,
+      category,
+      subCategory,
+      productFeatures,
+      texture,
+      scent,
+      color,
+      packaging,
+      stockQuantity,
+      isInStock,
+      thumbnailImage, // ✅ Now a URL string
+      images,         // ✅ Array of URL strings
+      videoUrl,       // ✅ URL string or null
+    } = body;
 
-    // Extract text fields
-    const productName = formData.get("productName");
-    const productDescription = formData.get("productDescription");
-    const productPrice = formData.get("productPrice");
-    const discountPrice = formData.get("discountPrice");
-    const category = formData.get("category");
-    const subCategory = formData.get("subCategory");
-    const productFeatures = formData.get("productFeatures");
-    const texture = formData.get("texture");
-    const scent = formData.get("scent");
-    const color = formData.get("color");
-    const packaging = formData.get("packaging");
-    const stockQuantity = formData.get("stockQuantity");
-    const isInStock = formData.get("isInStock") === "true";
-
-    // Extract files
-    const thumbnail = formData.get("thumbnailImage");
-    const gallery = formData.getAll("gallery");
-    const video = formData.get("video");
+    // Log for debugging
+    console.log("📦 Received product data:", {
+      productName,
+      productPrice,
+      category,
+      thumbnailImage: thumbnailImage ? "✅ URL present" : "❌ Missing",
+      imagesCount: images?.length || 0,
+      videoUrl: videoUrl ? "✅ URL present" : "none",
+    });
 
     // Validate required fields
     if (!productName || !productPrice || !category) {
@@ -43,59 +43,61 @@ export async function POST(request) {
           success: false,
           message: "Product name, price, and category are required",
         },
-        { status: 400 }
+        { status: 400 },
       );
     }
 
-    //  If you need to send to another backend, use FormData there too
+    if (!thumbnailImage) {
+      return NextResponse.json(
+        {
+          success: false,
+          message: "Thumbnail image is required",
+        },
+        { status: 400 },
+      );
+    }
+
+    // ✅ Forward as JSON to your NestJS backend
     const url = process.env.NEXT_PUBLIC_BACKEND_URL + "/products/productCreate";
-    
-    //  Create a NEW FormData for the external API
-    const externalFormData = new FormData();
-    
-    // Add all text fields to external FormData
-    externalFormData.append("productName", productName);
-    externalFormData.append("productDescription", productDescription || "");
-    externalFormData.append("productPrice", productPrice);
-    if (discountPrice) externalFormData.append("discountPrice", discountPrice);
-    externalFormData.append("category", category);
-    if (subCategory) externalFormData.append("subCategory", subCategory);
-    if (productFeatures) externalFormData.append("productFeatures", productFeatures);
-    if (texture) externalFormData.append("texture", texture);
-    if (scent) externalFormData.append("scent", scent);
-    if (color) externalFormData.append("color", color);
-    if (packaging) externalFormData.append("packaging", packaging);
-    externalFormData.append("stockQuantity", stockQuantity);
-    externalFormData.append("isInStock", String(isInStock));
 
-    //  Add files to external FormData (they're already File objects)
-    if (thumbnail) {
-      externalFormData.append("thumbnail", thumbnail);
-    }
-    
-    if (gallery.length > 0) {
-      gallery.forEach((file) => {
-        externalFormData.append("gallery", file);
-      });
-    }
-    
-    if (video) {
-      externalFormData.append("video", video);
-    }
+   
 
-    //  Send FormData (NOT JSON)
     const response = await fetch(url, {
       method: "POST",
-      body: externalFormData, 
+      credentials: "include",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        productName,
+        productDescription: productDescription || "",
+        productPrice: parseFloat(productPrice),
+        discountPrice: discountPrice ? parseFloat(discountPrice) : null,
+        category,
+        subCategory: subCategory || "",
+        productFeatures: productFeatures || "",
+        texture: texture || "",
+        scent: scent || "",
+        color: color || "",
+        packaging: packaging || "",
+        stockQuantity: parseInt(stockQuantity) || 0,
+        isInStock: isInStock !== false,
+        // ✅ These are URLs now, not files
+        thumbnailImage,
+        images: Array.isArray(images) ? images : [],
+        videoUrl: videoUrl || null,
+      }),
     });
 
-    console.log("External API response status:", response.status);
+    console.log("📥 NestJS response status:", response.status);
 
-    // Try to parse response
+    // Parse response safely
     let data;
     try {
       data = await response.json();
     } catch (e) {
+      const text = await response.text();
+      console.error("❌ Invalid JSON from NestJS:", text);
       data = { message: "Invalid response from server" };
     }
 
@@ -103,9 +105,12 @@ export async function POST(request) {
       return NextResponse.json(
         {
           success: false,
-          error: data.message || data.error || "Failed to create product",
+          error:
+            data.message ||
+            data.error ||
+            `Failed to create product (${response.status})`,
         },
-        { status: response.status }
+        { status: response.status },
       );
     }
 
@@ -114,15 +119,14 @@ export async function POST(request) {
       message: "Product created successfully",
       data: data,
     });
-
   } catch (error) {
-    console.error("Error creating product:", error);
+    console.error("❌ Error creating product:", error);
     return NextResponse.json(
       {
         success: false,
         message: error.message || "Failed to create product",
       },
-      { status: 500 }
+      { status: 500 },
     );
   }
 }
