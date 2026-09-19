@@ -197,7 +197,7 @@ ${specs.join("\n")}
 
 Thank you! 🙏`;
 
-    const phoneNumber = "2347083910488";
+    const phoneNumber = "2349166380270";
     const url = `https://wa.me/${phoneNumber}?text=${encodeURIComponent(message)}`;
     window.open(url, "_blank");
   };
