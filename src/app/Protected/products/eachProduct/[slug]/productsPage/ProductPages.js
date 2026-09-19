@@ -269,18 +269,18 @@ export default function EachProductPage() {
 
   if (error && !useDummyData) {
     return (
-      <div className="min-h-screen bg-white flex items-center justify-center">
+      <div className="min-h-screen bg-white dark:bg-gray-950 flex items-center justify-center transition-colors">
         <div className="text-center">
           <div className="text-6xl mb-4">😢</div>
           <h2
-            className={`${playfair.className} text-2xl font-bold text-black mb-2`}
+            className={`${playfair.className} text-2xl font-bold text-black dark:text-white mb-2`}
           >
             Failed to load products
           </h2>
-          <p className={`${raleway.className} text-gray-600`}>{error}</p>
+          <p className={`${raleway.className} text-gray-600 dark:text-gray-300`}>{error}</p>
           <button
             onClick={() => fetchProducts(currentPage)}
-            className="mt-4 px-6 py-2 bg-black text-white rounded-lg hover:bg-gray-800 transition-colors"
+            className="mt-4 px-6 py-2 bg-black dark:bg-white text-white dark:text-gray-900 rounded-lg hover:bg-gray-800 dark:hover:bg-gray-200 transition-colors"
           >
             Try Again
           </button>
@@ -290,12 +290,12 @@ export default function EachProductPage() {
   }
 
   return (
-    <div className="min-h-screen bg-white">
+    <div className="min-h-screen bg-white dark:bg-gray-950 transition-colors">
       {/* Hero Section */}
-      <div className="relative bg-black text-white py-16 md:py-24">
+      <div className="relative bg-black dark:bg-white text-white dark:text-gray-900 py-16 md:py-24 transition-colors">
         <div className="absolute inset-0 opacity-10">
-          <div className="absolute top-0 right-0 w-96 h-96 bg-white rounded-full blur-3xl"></div>
-          <div className="absolute bottom-0 left-0 w-64 h-64 bg-white rounded-full blur-3xl"></div>
+          <div className="absolute top-0 right-0 w-96 h-96 bg-white dark:bg-gray-900 rounded-full blur-3xl"></div>
+          <div className="absolute bottom-0 left-0 w-64 h-64 bg-white dark:bg-gray-900 rounded-full blur-3xl"></div>
         </div>
         <div className="container mx-auto px-4 max-w-7xl relative z-10">
           <div className="text-center">
@@ -305,13 +305,13 @@ export default function EachProductPage() {
               {`${category} Collection`}
             </h1>
             <p
-              className={`${caveat.className} text-xl md:text-2xl text-gray-300`}
+              className={`${caveat.className} text-xl md:text-2xl text-gray-300 dark:text-gray-600`}
             >
               {`Glow naturally with our premium ${category} products. `}
             </p>
-            <div className="w-24 h-1 bg-white mx-auto mt-4"></div>
+            <div className="w-24 h-1 bg-white dark:bg-gray-900 mx-auto mt-4"></div>
             {useDummyData && (
-              <p className={`${raleway.className} text-xs text-gray-400 mt-4`}>
+              <p className={`${raleway.className} text-xs text-gray-400 dark:text-gray-500 mt-4`}>
                 (Showing sample products)
               </p>
             )}
@@ -326,13 +326,13 @@ export default function EachProductPage() {
       >
         {/* Products count and page info */}
         <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-8 gap-4">
-          <p className={`${raleway.className} text-sm text-gray-500`}>
+          <p className={`${raleway.className} text-sm text-gray-500 dark:text-gray-400`}>
             Showing {products.length > 0 ? (currentPage - 1) * limit + 1 : 0} -{" "}
             {Math.min(currentPage * limit, totalProducts)} of {totalProducts}{" "}
             products
           </p>
           {totalPages > 1 && (
-            <p className={`${raleway.className} text-sm text-gray-400`}>
+            <p className={`${raleway.className} text-sm text-gray-400 dark:text-gray-500`}>
               Page {currentPage} of {totalPages}
             </p>
           )}
@@ -340,7 +340,7 @@ export default function EachProductPage() {
 
         {products.length === 0 ? (
           <div className="text-center py-12">
-            <p className={`${raleway.className} text-gray-500 text-lg`}>
+            <p className={`${raleway.className} text-gray-500 dark:text-gray-400 text-lg`}>
               {`No ${category} products available at the moment.`}
             </p>
           </div>
@@ -358,7 +358,7 @@ export default function EachProductPage() {
                 return (
                   <div
                     key={product._id}
-                    className="group bg-white rounded-2xl overflow-hidden shadow-lg hover:shadow-2xl transition-all duration-500 hover:-translate-y-2 cursor-pointer block border border-gray-100"
+                    className="group bg-white dark:bg-gray-900 rounded-2xl overflow-hidden shadow-lg hover:shadow-2xl transition-all duration-500 hover:-translate-y-2 cursor-pointer block border border-gray-100 dark:border-gray-800"
                   >
                     {/* Product Image - Clickable to product details */}
                     <Link
@@ -379,7 +379,7 @@ export default function EachProductPage() {
                         <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent" />
 
                         {product.badge && (
-                          <span className="absolute top-4 left-4 bg-black text-white text-xs font-semibold px-3 py-1 rounded-full">
+                          <span className="absolute top-4 left-4 bg-black dark:bg-white text-white dark:text-gray-900 text-xs font-semibold px-3 py-1 rounded-full">
                             {product.badge}
                           </span>
                         )}
@@ -407,12 +407,12 @@ export default function EachProductPage() {
                         <div className="flex items-start justify-between mb-2">
                           <div>
                             <h3
-                              className={`${playfair.className} text-xl font-bold text-black hover:text-gray-700 transition-colors`}
+                              className={`${playfair.className} text-xl font-bold text-black dark:text-white hover:text-gray-700 dark:hover:text-gray-300 transition-colors`}
                             >
                               {product.productName}
                             </h3>
                             <p
-                              className={`${caveat.className} text-gray-500 text-sm`}
+                              className={`${caveat.className} text-gray-500 dark:text-gray-400 text-sm`}
                             >
                               {product.category || `${category}`}
                             </p>
@@ -421,19 +421,19 @@ export default function EachProductPage() {
                             {hasDiscount ? (
                               <>
                                 <span
-                                  className={`${playfair.className} text-xl font-bold text-red-600 block`}
+                                  className={`${playfair.className} text-xl font-bold text-red-600 dark:text-red-400 block`}
                                 >
                                   ₦{currentPrice.toFixed(2)}
                                 </span>
                                 <span
-                                  className={`${raleway.className} text-sm text-gray-400 line-through block`}
+                                  className={`${raleway.className} text-sm text-gray-400 dark:text-gray-500 line-through block`}
                                 >
                                   ₦{product.productPrice.toFixed(2)}
                                 </span>
                               </>
                             ) : (
                               <span
-                                className={`${playfair.className} text-xl font-bold text-black`}
+                                className={`${playfair.className} text-xl font-bold text-black dark:text-white`}
                               >
                                 ₦{product.productPrice.toFixed(2)}
                               </span>
@@ -442,7 +442,7 @@ export default function EachProductPage() {
                         </div>
 
                         <p
-                          className={`${raleway.className} text-gray-600 text-sm mb-4 line-clamp-2`}
+                          className={`${raleway.className} text-gray-600 dark:text-gray-300 text-sm mb-4 line-clamp-2`}
                         >
                           {product.shortDescription ||
                             product.productDescription}
@@ -453,7 +453,7 @@ export default function EachProductPage() {
                             <div className="flex items-center">
                               <span className="text-yellow-400">★</span>
                               <span
-                                className={`${raleway.className} text-sm font-medium text-gray-700 ml-1`}
+                                className={`${raleway.className} text-sm font-medium text-gray-700 dark:text-gray-300 ml-1`}
                               >
                                 {product.averageRating}
                               </span>
@@ -461,9 +461,9 @@ export default function EachProductPage() {
                           )}
                           {product.totalReviews && (
                             <>
-                              <span className="text-gray-300">|</span>
+                              <span className="text-gray-300 dark:text-gray-600">|</span>
                               <span
-                                className={`${raleway.className} text-sm text-gray-500`}
+                                className={`${raleway.className} text-sm text-gray-500 dark:text-gray-400`}
                               >
                                 {product.totalReviews} reviews
                               </span>
@@ -479,13 +479,13 @@ export default function EachProductPage() {
                           <>
                             <Link
                               href={`/Protected/products/product/${product._id}`}
-                              className="flex-1 px-4 py-2 bg-black text-white text-sm font-medium rounded-lg hover:bg-gray-800 transition-colors text-center"
+                              className="flex-1 px-4 py-2 bg-black dark:bg-white text-white dark:text-gray-900 text-sm font-medium rounded-lg hover:bg-gray-800 dark:hover:bg-gray-200 transition-colors text-center"
                             >
                               View Details
                             </Link>
                             <button
                               onClick={() => handleAddToCart(product)}
-                              className="flex-1 px-4 py-2 bg-black text-white text-sm font-medium rounded-lg hover:bg-gray-800 transition-colors"
+                              className="flex-1 px-4 py-2 bg-black dark:bg-white text-white dark:text-gray-900 text-sm font-medium rounded-lg hover:bg-gray-800 dark:hover:bg-gray-200 transition-colors"
                             >
                               Add to Cart
                             </button>
@@ -494,7 +494,7 @@ export default function EachProductPage() {
                           //  GUEST or NOT LOGGED IN - Show Buy Now only
                           <button
                             onClick={() => handleBuyNow(product)}
-                            className="w-full px-4 py-2 bg-black text-white text-sm font-medium rounded-lg hover:bg-gray-800 transition-colors"
+                            className="w-full px-4 py-2 bg-black dark:bg-white text-white dark:text-gray-900 text-sm font-medium rounded-lg hover:bg-gray-800 dark:hover:bg-gray-200 transition-colors"
                           >
                             Buy Now
                           </button>
@@ -504,14 +504,14 @@ export default function EachProductPage() {
                       {/*  Auth status indicator */}
                       {!isLoggedIn && (
                         <p
-                          className={`${raleway.className} text-xs text-gray-400 mt-2 text-center`}
+                          className={`${raleway.className} text-xs text-gray-400 dark:text-gray-500 mt-2 text-center`}
                         >
                           Sign in to add to cart
                         </p>
                       )}
                       {isGuest && isAuthenticated && (
                         <p
-                          className={`${raleway.className} text-xs text-gray-400 mt-2 text-center`}
+                          className={`${raleway.className} text-xs text-gray-400 dark:text-gray-500 mt-2 text-center`}
                         >
                           Sign in as a registered user to add to cart
                         </p>
@@ -530,10 +530,10 @@ export default function EachProductPage() {
                   <button
                     onClick={handlePrevPage}
                     disabled={!hasPrevious}
-                    className={`px-3 py-2 border border-gray-200 text-xs transition-colors rounded-lg ${
+                    className={`px-3 py-2 border border-gray-200 dark:border-gray-700 text-xs transition-colors rounded-lg ${
                       !hasPrevious
-                        ? "opacity-50 cursor-not-allowed text-gray-400"
-                        : "hover:bg-black hover:text-white hover:border-black text-gray-600"
+                        ? "opacity-50 cursor-not-allowed text-gray-400 dark:text-gray-600"
+                        : "hover:bg-black dark:hover:bg-white hover:text-white dark:hover:text-gray-900 hover:border-black dark:hover:border-white text-gray-600 dark:text-gray-300"
                     }`}
                   >
                     <svg
@@ -556,7 +556,7 @@ export default function EachProductPage() {
                     page === "..." ? (
                       <span
                         key={`ellipsis-${index}`}
-                        className="px-2 text-gray-400 text-sm"
+                        className="px-2 text-gray-400 dark:text-gray-500 text-sm"
                       >
                         …
                       </span>
@@ -566,8 +566,8 @@ export default function EachProductPage() {
                         onClick={() => handlePageChange(page)}
                         className={`px-4 py-2 text-sm transition-colors rounded-lg min-w-[40px] ${
                           currentPage === page
-                            ? "bg-black text-white"
-                            : "border border-gray-200 text-gray-600 hover:bg-black hover:text-white hover:border-black"
+                            ? "bg-black dark:bg-white text-white dark:text-gray-900"
+                            : "border border-gray-200 dark:border-gray-700 text-gray-600 dark:text-gray-300 hover:bg-black dark:hover:bg-white hover:text-white dark:hover:text-gray-900 hover:border-black dark:hover:border-white"
                         }`}
                       >
                         {page}
@@ -579,10 +579,10 @@ export default function EachProductPage() {
                   <button
                     onClick={handleNextPage}
                     disabled={!hasNext}
-                    className={`px-3 py-2 border border-gray-200 text-xs transition-colors rounded-lg ${
+                    className={`px-3 py-2 border border-gray-200 dark:border-gray-700 text-xs transition-colors rounded-lg ${
                       !hasNext
-                        ? "opacity-50 cursor-not-allowed text-gray-400"
-                        : "hover:bg-black hover:text-white hover:border-black text-gray-600"
+                        ? "opacity-50 cursor-not-allowed text-gray-400 dark:text-gray-600"
+                        : "hover:bg-black dark:hover:bg-white hover:text-white dark:hover:text-gray-900 hover:border-black dark:hover:border-white text-gray-600 dark:text-gray-300"
                     }`}
                   >
                     <svg
@@ -602,13 +602,13 @@ export default function EachProductPage() {
                 </div>
 
                 {/* Page Info with totals */}
-                <div className="flex items-center gap-4 text-xs text-gray-400">
+                <div className="flex items-center gap-4 text-xs text-gray-400 dark:text-gray-500">
                   <span>
                     Showing {(currentPage - 1) * limit + 1} -{" "}
                     {Math.min(currentPage * limit, totalProducts)} of{" "}
                     {totalProducts} products
                   </span>
-                  <span className="text-gray-300">|</span>
+                  <span className="text-gray-300 dark:text-gray-600">|</span>
                   <span>
                     Page {currentPage} of {totalPages}
                   </span>
@@ -617,7 +617,7 @@ export default function EachProductPage() {
                 {/* Quick jump to page */}
                 <div className="flex items-center gap-2">
                   <span
-                    className={`${raleway.className} text-xs text-gray-400`}
+                    className={`${raleway.className} text-xs text-gray-400 dark:text-gray-500`}
                   >
                     Go to page:
                   </span>
@@ -632,10 +632,10 @@ export default function EachProductPage() {
                         handlePageChange(page);
                       }
                     }}
-                    className="w-16 px-2 py-1 text-sm border border-gray-200 rounded-lg text-center focus:outline-none focus:border-black"
+                    className="w-16 px-2 py-1 text-sm border border-gray-200 dark:border-gray-700 rounded-lg text-center bg-white dark:bg-gray-800 text-gray-900 dark:text-white focus:outline-none focus:border-black dark:focus:border-white"
                   />
                   <span
-                    className={`${raleway.className} text-xs text-gray-400`}
+                    className={`${raleway.className} text-xs text-gray-400 dark:text-gray-500`}
                   >
                     of {totalPages}
                   </span>
@@ -646,7 +646,7 @@ export default function EachProductPage() {
             {/* Show dummy data indicator */}
             {useDummyData && products.length > 0 && (
               <div className="text-center mt-8">
-                <p className={`${raleway.className} text-xs text-gray-400`}>
+                <p className={`${raleway.className} text-xs text-gray-400 dark:text-gray-500`}>
                   💡 These are sample products. Connect your backend to see real
                   products.
                 </p>

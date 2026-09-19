@@ -82,10 +82,8 @@ export default function CheckoutPage() {
   const router = useRouter();
   const productId = searchParams.get("product");
 
-  //  Get auth state from AuthGuard
   const { user, isAuthenticated, loading: authLoading, isGuest } = useAuthGuard();
   
-  // Determine if user is actually logged in (not a guest)
   const isLoggedIn = isAuthenticated && !isGuest;
 
   const [product, setProduct] = useState(null);
@@ -97,7 +95,6 @@ export default function CheckoutPage() {
   const [userName, setUserName] = useState("");
   const [userEmail, setUserEmail] = useState("");
 
-  // Derive authenticated customer details without synchronizing state in an effect.
   const displayedUserName = isLoggedIn ? user?.name || "" : userName;
   const displayedUserEmail = isLoggedIn ? user?.email || "" : userEmail;
 
@@ -169,7 +166,6 @@ export default function CheckoutPage() {
     const currentPrice = product.discountPrice || product.productPrice;
     const totalPrice = (currentPrice * quantity).toFixed(2);
 
-    // Build product specifications string
     const specs = [];
     if (product.texture) specs.push(`🧴 Texture: ${product.texture}`);
     if (product.scent) specs.push(`🌸 Scent: ${product.scent}`);
@@ -179,10 +175,8 @@ export default function CheckoutPage() {
     if (product.category) specs.push(`📂 Category: ${product.category}`);
     if (product.subCategory) specs.push(`📁 Sub-Category: ${product.subCategory}`);
 
-    //  Include user auth info in message
     const authStatus = isLoggedIn ? " Registered User" : "👤 Guest User";
 
-    // Build the message
     const message = `🛍️ *NEW ORDER*
 
 👤 *Customer Details:*
@@ -208,10 +202,9 @@ Thank you! 🙏`;
     window.open(url, "_blank");
   };
 
-  //  Show loading state
   if (loading || authLoading) {
     return (
-      <div className="min-h-screen bg-white flex items-center justify-center">
+      <div className="min-h-screen bg-white dark:bg-gray-950 flex items-center justify-center transition-colors">
         <Loading />
       </div>
     );
@@ -219,20 +212,20 @@ Thank you! 🙏`;
 
   if (error || !product) {
     return (
-      <div className="min-h-screen bg-white flex items-center justify-center px-4">
+      <div className="min-h-screen bg-white dark:bg-gray-950 flex items-center justify-center px-4 transition-colors">
         <div className="text-center">
           <div className="text-6xl mb-4">😢</div>
           <h2
-            className={`${playfair.className} text-2xl font-light text-black mb-2`}
+            className={`${playfair.className} text-2xl font-light text-black dark:text-white mb-2`}
           >
             Product Not Found
           </h2>
-          <p className={`${raleway.className} text-gray-500`}>
+          <p className={`${raleway.className} text-gray-500 dark:text-gray-400`}>
             Please go back and try again.
           </p>
           <Link
             href="/Protected/products"
-            className="inline-block mt-6 px-8 py-3 bg-black text-white text-xs uppercase tracking-wider hover:bg-gray-800 transition-colors"
+            className="inline-block mt-6 px-8 py-3 bg-black dark:bg-white text-white dark:text-gray-900 text-xs uppercase tracking-wider hover:bg-gray-800 dark:hover:bg-gray-200 transition-colors"
           >
             Back to Products
           </Link>
@@ -244,13 +237,13 @@ Thank you! 🙏`;
   const currentPrice = product.discountPrice || product.productPrice;
 
   return (
-    <div className="min-h-screen bg-gray-50">
+    <div className="min-h-screen bg-gray-50 dark:bg-gray-950 transition-colors">
       <div className="container mx-auto px-4 sm:px-6 py-8 sm:py-12 max-w-3xl">
         {/* Header */}
         <div className="mb-6 sm:mb-8">
           <button
             onClick={() => router.back()}
-            className="text-sm text-gray-500 hover:text-black transition-colors flex items-center gap-2 cursor-pointer"
+            className="text-sm text-gray-500 dark:text-gray-400 hover:text-black dark:hover:text-white transition-colors flex items-center gap-2 cursor-pointer"
           >
             <svg
               className="w-4 h-4"
@@ -273,8 +266,8 @@ Thank you! 🙏`;
         <div className="mb-6">
           <div className={`inline-flex items-center gap-2 px-3 py-1 rounded-full text-xs ${
             isLoggedIn 
-              ? "bg-green-50 text-green-700 border border-green-200" 
-              : "bg-yellow-50 text-yellow-700 border border-yellow-200"
+              ? "bg-green-50 dark:bg-green-950/50 text-green-700 dark:text-green-400 border border-green-200 dark:border-green-800" 
+              : "bg-yellow-50 dark:bg-yellow-950/50 text-yellow-700 dark:text-yellow-400 border border-yellow-200 dark:border-yellow-800"
           }`}>
             <span className={`w-1.5 h-1.5 rounded-full ${
               isLoggedIn ? "bg-green-500" : "bg-yellow-500"
@@ -284,43 +277,47 @@ Thank you! 🙏`;
         </div>
 
         {/* Customer Details Form */}
-        <div className="bg-white rounded-2xl shadow-sm border border-gray-100 p-4 sm:p-6 mb-6">
+        <div className="bg-white dark:bg-gray-900 rounded-2xl shadow-sm border border-gray-100 dark:border-gray-800 p-4 sm:p-6 mb-6 transition-colors">
           <h2
-            className={`${playfair.className} text-lg sm:text-xl font-light text-black mb-4`}
+            className={`${playfair.className} text-lg sm:text-xl font-light text-black dark:text-white mb-4`}
           >
             Customer Details
           </h2>
           <div className="space-y-4">
             <div>
               <label
-                className={`${raleway.className} text-sm text-gray-600 block mb-1`}
+                className={`${raleway.className} text-sm text-gray-600 dark:text-gray-300 block mb-1`}
               >
-                Full Name {isLoggedIn && <span className="text-xs text-green-600">(auto-filled)</span>}
+                Full Name {isLoggedIn && <span className="text-xs text-green-600 dark:text-green-400">(auto-filled)</span>}
               </label>
               <input
                 type="text"
                 value={displayedUserName}
                 onChange={(e) => setUserName(e.target.value)}
                 placeholder="Enter your full name"
-                className={`w-full px-4 py-2 border rounded-lg focus:outline-none focus:border-black transition-colors ${
-                  isLoggedIn ? "border-green-200 bg-green-50/50" : "border-gray-300"
+                className={`w-full px-4 py-2 border rounded-lg focus:outline-none focus:border-black dark:focus:border-white transition-colors text-gray-900 dark:text-white placeholder-gray-400 dark:placeholder-gray-500 ${
+                  isLoggedIn 
+                    ? "border-green-200 dark:border-green-800 bg-green-50/50 dark:bg-green-950/30" 
+                    : "border-gray-300 dark:border-gray-700 bg-white dark:bg-gray-800"
                 }`}
                 readOnly={isLoggedIn}
               />
             </div>
             <div>
               <label
-                className={`${raleway.className} text-sm text-gray-600 block mb-1`}
+                className={`${raleway.className} text-sm text-gray-600 dark:text-gray-300 block mb-1`}
               >
-                Email Address {isLoggedIn && <span className="text-xs text-green-600">(auto-filled)</span>}
+                Email Address {isLoggedIn && <span className="text-xs text-green-600 dark:text-green-400">(auto-filled)</span>}
               </label>
               <input
                 type="email"
                 value={displayedUserEmail}
                 onChange={(e) => setUserEmail(e.target.value)}
                 placeholder="Enter your email"
-                className={`w-full px-4 py-2 border rounded-lg focus:outline-none focus:border-black transition-colors ${
-                  isLoggedIn ? "border-green-200 bg-green-50/50" : "border-gray-300"
+                className={`w-full px-4 py-2 border rounded-lg focus:outline-none focus:border-black dark:focus:border-white transition-colors text-gray-900 dark:text-white placeholder-gray-400 dark:placeholder-gray-500 ${
+                  isLoggedIn 
+                    ? "border-green-200 dark:border-green-800 bg-green-50/50 dark:bg-green-950/30" 
+                    : "border-gray-300 dark:border-gray-700 bg-white dark:bg-gray-800"
                 }`}
                 readOnly={isLoggedIn}
               />
@@ -329,16 +326,16 @@ Thank you! 🙏`;
         </div>
 
         {/* Product Summary */}
-        <div className="bg-white rounded-2xl shadow-sm border border-gray-100 p-4 sm:p-6 mb-6">
+        <div className="bg-white dark:bg-gray-900 rounded-2xl shadow-sm border border-gray-100 dark:border-gray-800 p-4 sm:p-6 mb-6 transition-colors">
           <h1
-            className={`${playfair.className} text-xl sm:text-2xl font-light text-black mb-4 sm:mb-6`}
+            className={`${playfair.className} text-xl sm:text-2xl font-light text-black dark:text-white mb-4 sm:mb-6`}
           >
             Order Summary
           </h1>
 
           <div className="flex flex-col sm:flex-row sm:items-center gap-4 sm:gap-6">
             <div className="flex items-center gap-4 flex-1">
-              <div className="relative w-16 h-16 sm:w-20 sm:h-20 rounded-lg overflow-hidden bg-gray-50 flex-shrink-0">
+              <div className="relative w-16 h-16 sm:w-20 sm:h-20 rounded-lg overflow-hidden bg-gray-50 dark:bg-gray-800 flex-shrink-0 transition-colors">
                 <Image
                   src={product.images?.[0] || "/images/placeholder.jpg"}
                   alt={product.productName}
@@ -348,24 +345,24 @@ Thank you! 🙏`;
               </div>
               <div className="flex-1 min-w-0">
                 <h3
-                  className={`${raleway.className} font-medium text-black text-sm sm:text-base truncate`}
+                  className={`${raleway.className} font-medium text-black dark:text-white text-sm sm:text-base truncate`}
                 >
                   {product.productName}
                 </h3>
                 <p
-                  className={`${raleway.className} text-xs sm:text-sm text-gray-500 truncate`}
+                  className={`${raleway.className} text-xs sm:text-sm text-gray-500 dark:text-gray-400 truncate`}
                 >
                   {product.category} / {product.subCategory}
                 </p>
                 <div className="flex flex-wrap items-center gap-2 sm:gap-3 mt-1">
                   <span
-                    className={`${playfair.className} text-base sm:text-lg font-light text-black`}
+                    className={`${playfair.className} text-base sm:text-lg font-light text-black dark:text-white`}
                   >
                     ₦{currentPrice.toFixed(2)}
                   </span>
                   {product.discountPrice && (
                     <span
-                      className={`${raleway.className} text-xs sm:text-sm text-gray-400 line-through`}
+                      className={`${raleway.className} text-xs sm:text-sm text-gray-400 dark:text-gray-500 line-through`}
                     >
                       ₦{product.productPrice.toFixed(2)}
                     </span>
@@ -373,14 +370,14 @@ Thank you! 🙏`;
                   <div className="flex items-center gap-2">
                     <button
                       onClick={() => setQuantity(Math.max(1, quantity - 1))}
-                      className="w-8 h-8 border border-gray-300 rounded-lg flex items-center justify-center hover:border-black transition-colors"
+                      className="w-8 h-8 border border-gray-300 dark:border-gray-700 rounded-lg flex items-center justify-center hover:border-black dark:hover:border-white transition-colors text-gray-900 dark:text-white"
                     >
                       -
                     </button>
-                    <span className="w-8 text-center">{quantity}</span>
+                    <span className="w-8 text-center text-gray-900 dark:text-white">{quantity}</span>
                     <button
                       onClick={() => setQuantity(quantity + 1)}
-                      className="w-8 h-8 border border-gray-300 rounded-lg flex items-center justify-center hover:border-black transition-colors"
+                      className="w-8 h-8 border border-gray-300 dark:border-gray-700 rounded-lg flex items-center justify-center hover:border-black dark:hover:border-white transition-colors text-gray-900 dark:text-white"
                     >
                       +
                     </button>
@@ -390,7 +387,7 @@ Thank you! 🙏`;
             </div>
             <div className="text-left sm:text-right sm:ml-4">
               <span
-                className={`${playfair.className} text-lg sm:text-xl font-light text-black`}
+                className={`${playfair.className} text-lg sm:text-xl font-light text-black dark:text-white`}
               >
                 ₦{(currentPrice * quantity).toFixed(2)}
               </span>
@@ -398,42 +395,42 @@ Thank you! 🙏`;
           </div>
 
           {/* Product Specs */}
-          <div className="mt-4 pt-4 border-t border-gray-100">
+          <div className="mt-4 pt-4 border-t border-gray-100 dark:border-gray-800">
             <h4
-              className={`${raleway.className} text-xs font-medium text-gray-500 uppercase tracking-wider mb-2`}
+              className={`${raleway.className} text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider mb-2`}
             >
               Product Specifications
             </h4>
             <div className="grid grid-cols-2 gap-2">
               {product.texture && (
                 <div className="text-xs">
-                  <span className="text-gray-500">Texture:</span>
-                  <span className="text-black ml-1">{product.texture}</span>
+                  <span className="text-gray-500 dark:text-gray-400">Texture:</span>
+                  <span className="text-black dark:text-white ml-1">{product.texture}</span>
                 </div>
               )}
               {product.scent && (
                 <div className="text-xs">
-                  <span className="text-gray-500">Scent:</span>
-                  <span className="text-black ml-1">{product.scent}</span>
+                  <span className="text-gray-500 dark:text-gray-400">Scent:</span>
+                  <span className="text-black dark:text-white ml-1">{product.scent}</span>
                 </div>
               )}
               {product.color && (
                 <div className="text-xs">
-                  <span className="text-gray-500">Color:</span>
-                  <span className="text-black ml-1">{product.color}</span>
+                  <span className="text-gray-500 dark:text-gray-400">Color:</span>
+                  <span className="text-black dark:text-white ml-1">{product.color}</span>
                 </div>
               )}
               {product.packaging && (
                 <div className="text-xs">
-                  <span className="text-gray-500">Packaging:</span>
-                  <span className="text-black ml-1">{product.packaging}</span>
+                  <span className="text-gray-500 dark:text-gray-400">Packaging:</span>
+                  <span className="text-black dark:text-white ml-1">{product.packaging}</span>
                 </div>
               )}
             </div>
             {product.productFeatures && (
               <div className="mt-2 text-xs">
-                <span className="text-gray-500">Features:</span>
-                <span className="text-black ml-1">
+                <span className="text-gray-500 dark:text-gray-400">Features:</span>
+                <span className="text-black dark:text-white ml-1">
                   {product.productFeatures}
                 </span>
               </div>
@@ -442,51 +439,51 @@ Thank you! 🙏`;
         </div>
 
         {/* Payment Instructions */}
-        <div className="bg-white rounded-2xl shadow-sm border border-gray-100 p-4 sm:p-6 mb-6">
+        <div className="bg-white dark:bg-gray-900 rounded-2xl shadow-sm border border-gray-100 dark:border-gray-800 p-4 sm:p-6 mb-6 transition-colors">
           <h2
-            className={`${playfair.className} text-lg sm:text-xl font-light text-black mb-4`}
+            className={`${playfair.className} text-lg sm:text-xl font-light text-black dark:text-white mb-4`}
           >
             Payment Instructions
           </h2>
 
           <div className="space-y-3 sm:space-y-4">
             <div className="flex items-start gap-3">
-              <span className="w-6 h-6 bg-black text-white rounded-full flex items-center justify-center text-xs font-bold flex-shrink-0 mt-0.5">
+              <span className="w-6 h-6 bg-black dark:bg-white text-white dark:text-gray-900 rounded-full flex items-center justify-center text-xs font-bold flex-shrink-0 mt-0.5">
                 1
               </span>
               <p
-                className={`${raleway.className} text-xs sm:text-sm text-gray-600 leading-relaxed`}
+                className={`${raleway.className} text-xs sm:text-sm text-gray-600 dark:text-gray-300 leading-relaxed`}
               >
                 Transfer the exact amount to any of the bank accounts below.
               </p>
             </div>
             <div className="flex items-start gap-3">
-              <span className="w-6 h-6 bg-black text-white rounded-full flex items-center justify-center text-xs font-bold flex-shrink-0 mt-0.5">
+              <span className="w-6 h-6 bg-black dark:bg-white text-white dark:text-gray-900 rounded-full flex items-center justify-center text-xs font-bold flex-shrink-0 mt-0.5">
                 2
               </span>
               <p
-                className={`${raleway.className} text-xs sm:text-sm text-gray-600 leading-relaxed`}
+                className={`${raleway.className} text-xs sm:text-sm text-gray-600 dark:text-gray-300 leading-relaxed`}
               >
                 Click &apos;Contact sellers on WhatsApp&apos; to notify the seller that
                 you&apos;re interested.
               </p>
             </div>
             <div className="flex items-start gap-3">
-              <span className="w-6 h-6 bg-black text-white rounded-full flex items-center justify-center text-xs font-bold flex-shrink-0 mt-0.5">
+              <span className="w-6 h-6 bg-black dark:bg-white text-white dark:text-gray-900 rounded-full flex items-center justify-center text-xs font-bold flex-shrink-0 mt-0.5">
                 3
               </span>
               <p
-                className={`${raleway.className} text-xs sm:text-sm text-gray-600 leading-relaxed`}
+                className={`${raleway.className} text-xs sm:text-sm text-gray-600 dark:text-gray-300 leading-relaxed`}
               >
                 Copy seller&apos;s account number and transfer the exact amount.
               </p>
             </div>
             <div className="flex items-start gap-3">
-              <span className="w-6 h-6 bg-black text-white rounded-full flex items-center justify-center text-xs font-bold flex-shrink-0 mt-0.5">
+              <span className="w-6 h-6 bg-black dark:bg-white text-white dark:text-gray-900 rounded-full flex items-center justify-center text-xs font-bold flex-shrink-0 mt-0.5">
                 4
               </span>
               <p
-                className={`${raleway.className} text-xs sm:text-sm text-gray-600 leading-relaxed`}
+                className={`${raleway.className} text-xs sm:text-sm text-gray-600 dark:text-gray-300 leading-relaxed`}
               >
                 Save your payment receipt and upload it to the seller&apos;s WhatsApp
                 before the seller can confirm your payment.
@@ -496,9 +493,9 @@ Thank you! 🙏`;
         </div>
 
         {/* Bank Accounts */}
-        <div className="bg-white rounded-2xl shadow-sm border border-gray-100 p-4 sm:p-6 mb-6">
+        <div className="bg-white dark:bg-gray-900 rounded-2xl shadow-sm border border-gray-100 dark:border-gray-800 p-4 sm:p-6 mb-6 transition-colors">
           <h2
-            className={`${playfair.className} text-lg sm:text-xl font-light text-black mb-4`}
+            className={`${playfair.className} text-lg sm:text-xl font-light text-black dark:text-white mb-4`}
           >
             Bank Accounts
           </h2>
@@ -507,31 +504,31 @@ Thank you! 🙏`;
             {bankAccounts?.map((account, index) => (
               <div
                 key={account._id}
-                className="border border-gray-200 rounded-xl p-4 hover:border-black transition-colors"
+                className="border border-gray-200 dark:border-gray-700 rounded-xl p-4 hover:border-black dark:hover:border-white transition-colors"
               >
                 <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3">
                   <div className="min-w-0 flex-1">
                     <div className="flex flex-wrap items-center gap-2 mb-1">
                       <span
-                        className={`${raleway.className} font-medium text-black text-sm sm:text-base`}
+                        className={`${raleway.className} font-medium text-black dark:text-white text-sm sm:text-base`}
                       >
                         {account.bankName}
                       </span>
                     </div>
                     <p
-                      className={`${raleway.className} text-xs sm:text-sm text-gray-500 truncate`}
+                      className={`${raleway.className} text-xs sm:text-sm text-gray-500 dark:text-gray-400 truncate`}
                     >
                       {account.name}
                     </p>
                     <p
-                      className={`${raleway.className} text-base sm:text-lg font-mono text-black mt-1 break-all`}
+                      className={`${raleway.className} text-base sm:text-lg font-mono text-black dark:text-white mt-1 break-all`}
                     >
                       {account.accNumber}
                     </p>
                   </div>
                   <button
                     onClick={() => handleCopyAccount(account.accNumber, index)}
-                    className="px-4 py-2.5 sm:py-2 text-xs sm:text-sm border border-gray-300 rounded-lg hover:bg-black hover:text-white hover:border-black transition-all duration-300 whitespace-nowrap"
+                    className="px-4 py-2.5 sm:py-2 text-xs sm:text-sm border border-gray-300 dark:border-gray-700 rounded-lg hover:bg-black dark:hover:bg-white hover:text-white dark:hover:text-gray-900 hover:border-black dark:hover:border-white transition-all duration-300 whitespace-nowrap text-gray-900 dark:text-white"
                   >
                     {copiedIndex === index ? "Copied! ✓" : "Copy"}
                   </button>
@@ -542,9 +539,9 @@ Thank you! 🙏`;
         </div>
 
         {/* Receipt Upload & WhatsApp */}
-        <div className="bg-white rounded-2xl shadow-sm border border-gray-100 p-4 sm:p-6">
+        <div className="bg-white dark:bg-gray-900 rounded-2xl shadow-sm border border-gray-100 dark:border-gray-800 p-4 sm:p-6 transition-colors">
           <h2
-            className={`${playfair.className} text-lg sm:text-xl font-light text-black mb-4`}
+            className={`${playfair.className} text-lg sm:text-xl font-light text-black dark:text-white mb-4`}
           >
             After Payment
           </h2>
@@ -571,7 +568,7 @@ Thank you! 🙏`;
 
         {/* Footer note */}
         <div className="mt-6 text-center px-4">
-          <p className={`${caveat.className} text-gray-400 text-xs sm:text-sm`}>
+          <p className={`${caveat.className} text-gray-400 dark:text-gray-500 text-xs sm:text-sm`}>
             💡 Once you`ve uploaded your receipt, the seller will confirm your
             payment
           </p>

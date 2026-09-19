@@ -29,7 +29,7 @@ export default function dashboard() {
       <div className="m-4">
         <Suspense
           fallback={
-            <div className="min-h-screen bg-white flex items-center justify-center">
+            <div className="min-h-screen bg-white dark:bg-gray-950 flex items-center justify-center transition-colors">
               <Loading />
             </div>
           }

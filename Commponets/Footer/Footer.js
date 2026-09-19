@@ -112,7 +112,7 @@ export default function Footer() {
   ];
 
   return (
-    <footer className="bg-white border-t border-gray-200">
+    <footer className="bg-white dark:bg-gray-900 border-t border-gray-200 dark:border-gray-800 transition-colors">
       {/* Main Footer */}
       <div className="container mx-auto px-4 py-12 max-w-7xl">
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
@@ -129,19 +129,19 @@ export default function Footer() {
               </div>
               <div>
                 <h3
-                  className={`${dancing.className} text-2xl font-bold text-black leading-tight`}
+                  className={`${dancing.className} text-2xl font-bold text-black dark:text-white leading-tight`}
                 >
                   B&B BodyCare
                 </h3>
                 <p
-                  className={`${caveat.className} text-sm text-gray-500 -mt-1`}
+                  className={`${caveat.className} text-sm text-gray-500 dark:text-gray-400 -mt-1`}
                 >
                   natural beauty
                 </p>
               </div>
             </div>
             <p
-              className={`${raleway.className} text-gray-600 text-sm leading-relaxed`}
+              className={`${raleway.className} text-gray-600 dark:text-gray-300 text-sm leading-relaxed`}
             >
               Discover premium skincare, facecare, and body oil products made
               with natural ingredients for radiant, healthy skin.
@@ -155,7 +155,7 @@ export default function Footer() {
                   href={social.path}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="w-9 h-9 bg-gray-100 hover:bg-black rounded-full flex items-center justify-center text-gray-600 hover:text-white transition-all duration-300"
+                  className="w-9 h-9 bg-gray-100 dark:bg-gray-800 hover:bg-black dark:hover:bg-white rounded-full flex items-center justify-center text-gray-600 dark:text-gray-400 hover:text-white dark:hover:text-gray-900 transition-all duration-300"
                   aria-label={social.name}
                 >
                   {social.icon}
@@ -167,7 +167,7 @@ export default function Footer() {
           {/* Company Links */}
           <div>
             <h4
-              className={`${raleway.className} font-semibold text-black text-sm uppercase tracking-wider mb-4`}
+              className={`${raleway.className} font-semibold text-black dark:text-white text-sm uppercase tracking-wider mb-4`}
             >
               Company
             </h4>
@@ -176,7 +176,7 @@ export default function Footer() {
                 <li key={link.name}>
                   <Link
                     href={link.path}
-                    className={`${raleway.className} text-gray-600 hover:text-black text-sm transition-colors duration-200`}
+                    className={`${raleway.className} text-gray-600 dark:text-gray-400 hover:text-black dark:hover:text-white text-sm transition-colors duration-200`}
                   >
                     {link.name}
                   </Link>
@@ -188,7 +188,7 @@ export default function Footer() {
           {/* Support Links */}
           <div>
             <h4
-              className={`${raleway.className} font-semibold text-black text-sm uppercase tracking-wider mb-4`}
+              className={`${raleway.className} font-semibold text-black dark:text-white text-sm uppercase tracking-wider mb-4`}
             >
               Support
             </h4>
@@ -197,7 +197,7 @@ export default function Footer() {
                 <li key={link.name}>
                   <Link
                     href={link.path}
-                    className={`${raleway.className} text-gray-600 hover:text-black text-sm transition-colors duration-200`}
+                    className={`${raleway.className} text-gray-600 dark:text-gray-400 hover:text-black dark:hover:text-white text-sm transition-colors duration-200`}
                   >
                     {link.name}
                   </Link>
@@ -209,11 +209,11 @@ export default function Footer() {
           {/* Newsletter Section */}
           <div>
             <h4
-              className={`${raleway.className} font-semibold text-black text-sm uppercase tracking-wider mb-4`}
+              className={`${raleway.className} font-semibold text-black dark:text-white text-sm uppercase tracking-wider mb-4`}
             >
               Newsletter
             </h4>
-            <p className={`${raleway.className} text-gray-600 text-sm mb-3`}>
+            <p className={`${raleway.className} text-gray-600 dark:text-gray-300 text-sm mb-3`}>
               Subscribe for exclusive offers and updates.
             </p>
             <form onSubmit={handleSubscribe} className="flex flex-col gap-2">
@@ -223,19 +223,19 @@ export default function Footer() {
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
                   placeholder="Enter your email"
-                  className={`${raleway.className} flex-1 px-3 py-2 text-sm border border-gray-300 rounded-l-lg focus:outline-none focus:border-black transition-colors`}
+                  className={`${raleway.className} flex-1 px-3 py-2 text-sm border border-gray-300 dark:border-gray-700 rounded-l-lg bg-white dark:bg-gray-800 text-gray-900 dark:text-white placeholder-gray-400 dark:placeholder-gray-500 focus:outline-none focus:border-black dark:focus:border-white transition-colors`}
                   required
                 />
                 <button
                   type="submit"
-                  className="px-4 py-2 bg-black text-white text-sm font-medium rounded-r-lg hover:bg-gray-800 transition-colors"
+                  className="px-4 py-2 bg-black dark:bg-white text-white dark:text-gray-900 text-sm font-medium rounded-r-lg hover:bg-gray-800 dark:hover:bg-gray-200 transition-colors"
                 >
                   Subscribe
                 </button>
               </div>
               {subscribed && (
                 <p
-                  className={`${raleway.className} text-green-600 text-xs animate-fade-in`}
+                  className={`${raleway.className} text-green-600 dark:text-green-400 text-xs animate-fade-in`}
                 >
                   ✅ NEWSLETTER SUBSCRIPTION COMING SOON.
                 </p>
@@ -263,13 +263,13 @@ export default function Footer() {
         </div>
 
         {/* Legal Links - Mobile Friendly */}
-        <div className="mt-8 pt-8 border-t border-gray-200">
+        <div className="mt-8 pt-8 border-t border-gray-200 dark:border-gray-800">
           <div className="flex flex-wrap justify-center gap-4 md:gap-6 mb-4">
             {footerLinks.legal.map((link) => (
               <Link
                 key={link.name}
                 href={link.path}
-                className={`${raleway.className} text-gray-500 hover:text-black text-xs transition-colors duration-200`}
+                className={`${raleway.className} text-gray-500 dark:text-gray-400 hover:text-black dark:hover:text-white text-xs transition-colors duration-200`}
               >
                 {link.name}
               </Link>
@@ -277,7 +277,7 @@ export default function Footer() {
           </div>
 
           <div className="text-center">
-            <p className={`${raleway.className} text-gray-400 text-xs`}>
+            <p className={`${raleway.className} text-gray-400 dark:text-gray-500 text-xs`}>
               &copy; {new Date().getFullYear()} B&B BodyCare . All rights
               reserved.
               <br className="block sm:hidden" />

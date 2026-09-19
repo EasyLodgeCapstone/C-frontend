@@ -167,10 +167,10 @@ export default function Home() {
   };
 
   return (
-    <div className="min-h-screen bg-white">
+    <div className="min-h-screen bg-white dark:bg-gray-950 transition-colors">
       <main className="container mx-auto px-4 py-6 max-w-7xl">
         {/* Header Section - Black/White Theme */}
-        <div className="bg-white shadow-lg rounded-2xl p-6 mb-8 border border-gray-200">
+        <div className="bg-white dark:bg-gray-900 shadow-lg rounded-2xl p-6 mb-8 border border-gray-200 dark:border-gray-800 transition-colors">
           <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
             {/* Logo */}
             <header className="relative">
@@ -185,7 +185,7 @@ export default function Home() {
                 </div>
                 <div>
                   <h2 className="text-3xl md:text-4xl capitalize font-bold animate-pulse">
-                    <span className={`${dancing.className} text-black`}>
+                    <span className={`${dancing.className} text-black dark:text-white`}>
                       B&B BodyCare
                     </span>
                   </h2>
@@ -196,7 +196,7 @@ export default function Home() {
             {/* Tagline - Black & White */}
             <p className="text-lg md:text-xl mt-0 md:mt-4">
               <span
-                className={`${caveat.className} text-white bg-black px-4 py-2 rounded-full shadow-lg`}
+                className={`${caveat.className} text-white dark:text-gray-900 bg-black dark:bg-white px-4 py-2 rounded-full shadow-lg transition-colors`}
               >
                 🌿 All-Natural Beauty Products
               </span>
@@ -270,7 +270,7 @@ export default function Home() {
 
                   <button
                     onClick={() => handleShopNow(slide.link)}
-                    className="mt-6 px-8 py-3 bg-white text-black rounded-full hover:bg-gray-100 transition-all duration-300 transform hover:scale-105 font-semibold shadow-lg"
+                    className="mt-6 px-8 py-3 bg-white dark:bg-gray-900 text-black dark:text-white rounded-full hover:bg-gray-100 dark:hover:bg-gray-800 transition-all duration-300 transform hover:scale-105 font-semibold shadow-lg"
                   >
                     Shop Now →
                   </button>
@@ -361,8 +361,8 @@ export default function Home() {
               key={index}
               className={`relative overflow-hidden rounded-xl cursor-pointer transition-all duration-300 hover:scale-105 hover:shadow-2xl ${
                 currentSlide === index
-                  ? "ring-4 ring-black shadow-2xl"
-                  : "ring-1 ring-gray-200"
+                  ? "ring-4 ring-black dark:ring-white shadow-2xl"
+                  : "ring-1 ring-gray-200 dark:ring-gray-800"
               }`}
               onClick={() => setCurrentSlide(index)}
             >
@@ -392,16 +392,16 @@ export default function Home() {
         {/* Additional Product Categories Section */}
         <div className="mt-12 grid grid-cols-2 md:grid-cols-6 gap-4">
           {[
-            { name: "Face Cream", icon: "🧴", color: "bg-black" },
-            { name: "Serum", icon: "💧", color: "bg-gray-800" },
-            { name: "Moisturizer", icon: "✨", color: "bg-gray-600" },
-            { name: "Cleanser", icon: "🧼", color: "bg-black" },
-            { name: "Body Enhancement", icon: "💪", color: "bg-gray-700" },
-            { name: "Aphrodisiacs", icon: "❤️‍🔥", color: "bg-black" },
+            { name: "Face Cream", icon: "🧴", color: "bg-black dark:bg-white" },
+            { name: "Serum", icon: "💧", color: "bg-gray-800 dark:bg-gray-200" },
+            { name: "Moisturizer", icon: "✨", color: "bg-gray-600 dark:bg-gray-300" },
+            { name: "Cleanser", icon: "🧼", color: "bg-black dark:bg-white" },
+            { name: "Body Enhancement", icon: "💪", color: "bg-gray-700 dark:bg-gray-300" },
+            { name: "Aphrodisiacs", icon: "❤️‍🔥", color: "bg-black dark:bg-white" },
           ].map((item, index) => (
             <div
               key={index}
-              className={`${item.color} text-white p-6 rounded-xl text-center transition-all duration-300 hover:scale-105 hover:shadow-2xl cursor-pointer`}
+              className={`${item.color} text-white dark:text-gray-900 p-6 rounded-xl text-center transition-all duration-300 hover:scale-105 hover:shadow-2xl cursor-pointer`}
             >
               <div className="text-3xl mb-2">{item.icon}</div>
               <h4 className={`${raleway.className} font-semibold text-sm`}>
@@ -414,7 +414,7 @@ export default function Home() {
         {/* Featured Products Section */}
         <div className="mt-12">
           <h2
-            className={`${playfair.className} text-3xl md:text-4xl text-black text-center mb-8`}
+            className={`${playfair.className} text-3xl md:text-4xl text-black dark:text-white text-center mb-8 transition-colors`}
           >
             Featured Categories
           </h2>
@@ -425,24 +425,24 @@ export default function Home() {
                 description:
                   "Premium supplements for muscle growth and recovery",
                 icon: "💪",
-                bg: "bg-black",
+                bg: "bg-black dark:bg-white",
               },
               {
                 name: "Aphrodisiacs",
                 description: "Natural blends to enhance intimacy and vitality",
                 icon: "❤️‍🔥",
-                bg: "bg-gray-800",
+                bg: "bg-gray-800 dark:bg-gray-200",
               },
               {
                 name: "Weight Management",
                 description: "Healthy solutions for weight loss and gain",
                 icon: "🥗",
-                bg: "bg-gray-600",
+                bg: "bg-gray-600 dark:bg-gray-300",
               },
             ].map((item, index) => (
               <div
                 key={index}
-                className={`${item.bg} text-white p-8 rounded-2xl text-center transition-all duration-300 hover:scale-105 hover:shadow-2xl cursor-pointer`}
+                className={`${item.bg} text-white dark:text-gray-900 p-8 rounded-2xl text-center transition-all duration-300 hover:scale-105 hover:shadow-2xl cursor-pointer`}
               >
                 <div className="text-6xl mb-4">{item.icon}</div>
                 <h3 className={`${playfair.className} text-2xl font-bold mb-2`}>
@@ -451,7 +451,7 @@ export default function Home() {
                 <p className={`${raleway.className} text-sm opacity-80`}>
                   {item.description}
                 </p>
-                <button className="mt-4 px-6 py-2 bg-white text-black rounded-full hover:bg-gray-100 transition-all duration-300 text-sm font-semibold">
+                <button className="mt-4 px-6 py-2 bg-white dark:bg-gray-900 text-black dark:text-white rounded-full hover:bg-gray-100 dark:hover:bg-gray-800 transition-all duration-300 text-sm font-semibold">
                   Explore →
                 </button>
               </div>

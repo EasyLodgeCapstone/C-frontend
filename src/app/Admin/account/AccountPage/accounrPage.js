@@ -220,10 +220,10 @@ export default function BankAccountsPage() {
 
   if (loading && accounts.length === 0) {
     return (
-      <div className="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-50 flex items-center justify-center">
+      <div className="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-50 dark:from-gray-950 dark:to-gray-900 flex items-center justify-center transition-colors">
         <div className="text-center">
-          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-indigo-600 mx-auto"></div>
-          <p className={`${raleway.className} text-gray-500 mt-4`}>
+          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-indigo-600 dark:border-indigo-400 mx-auto"></div>
+          <p className={`${raleway.className} text-gray-500 dark:text-gray-400 mt-4`}>
             Loading bank accounts...
           </p>
         </div>
@@ -232,7 +232,7 @@ export default function BankAccountsPage() {
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-50">
+    <div className="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-50 dark:from-gray-950 dark:to-gray-900 transition-colors">
       {/* Mobile Overlay */}
       {sidebarOpen && (
         <div
@@ -243,23 +243,23 @@ export default function BankAccountsPage() {
 
       {/* Sidebar */}
       <aside
-        className={`fixed top-0 left-0 z-30 w-[280px] h-full bg-white shadow-xl transform transition-transform duration-300 ease-in-out overflow-y-auto ${
+        className={`fixed top-0 left-0 z-30 w-[280px] h-full bg-white dark:bg-gray-900 shadow-xl transform transition-transform duration-300 ease-in-out overflow-y-auto border-r border-gray-200 dark:border-gray-800 ${
           sidebarOpen ? "translate-x-0" : "-translate-x-full"
         } lg:translate-x-0`}
       >
         <div className="flex flex-col h-full">
-          <div className="flex items-center justify-between px-6 py-5 border-b">
+          <div className="flex items-center justify-between px-6 py-5 border-b border-gray-200 dark:border-gray-800">
             <div>
-              <h1 className={`${playfair.className} text-2xl font-light text-gray-800`}>
+              <h1 className={`${playfair.className} text-2xl font-light text-gray-800 dark:text-white`}>
                 Admin
               </h1>
-              <p className={`${caveat.className} text-sm text-gray-500`}>
+              <p className={`${caveat.className} text-sm text-gray-500 dark:text-gray-400`}>
                 Dashboard
               </p>
             </div>
             <button
               onClick={() => setSidebarOpen(false)}
-              className="lg:hidden text-gray-500 hover:text-gray-700 transition-colors"
+              className="lg:hidden text-gray-500 dark:text-gray-400 hover:text-gray-700 dark:hover:text-white transition-colors"
             >
               <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
@@ -270,7 +270,7 @@ export default function BankAccountsPage() {
           <nav className="flex-1 px-4 py-6 space-y-1">
             <Link
               href="/Admin/dashboard"
-              className="flex items-center gap-3 px-4 py-3 text-gray-600 hover:bg-gray-100 rounded-xl transition-colors"
+              className="flex items-center gap-3 px-4 py-3 text-gray-600 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-800 rounded-xl transition-colors"
             >
               <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2V6z" />
@@ -282,7 +282,7 @@ export default function BankAccountsPage() {
             </Link>
             <Link
               href="/Admin/bank-accounts"
-              className="flex items-center gap-3 px-4 py-3 bg-gray-900 text-white rounded-xl transition-colors"
+              className="flex items-center gap-3 px-4 py-3 bg-gray-900 dark:bg-white text-white dark:text-gray-900 rounded-xl transition-colors"
             >
               <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 10h18M3 14h18M5 18h14M3 6l9-4 9 4v2H3V6z" />
@@ -291,7 +291,7 @@ export default function BankAccountsPage() {
             </Link>
             <button
               onClick={handleLogout}
-              className="w-full flex items-center gap-3 px-4 py-3 text-gray-600 hover:bg-red-50 hover:text-red-600 rounded-xl transition-colors mt-8"
+              className="w-full flex items-center gap-3 px-4 py-3 text-gray-600 dark:text-gray-400 hover:bg-red-50 dark:hover:bg-red-950/30 hover:text-red-600 dark:hover:text-red-400 rounded-xl transition-colors mt-8"
             >
               <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1" />
@@ -329,45 +329,45 @@ export default function BankAccountsPage() {
             />
             
             {/* Modal */}
-            <div className="relative bg-white rounded-2xl max-w-md w-full p-6 sm:p-8 shadow-2xl animate-slide-up">
+            <div className="relative bg-white dark:bg-gray-900 rounded-2xl max-w-md w-full p-6 sm:p-8 shadow-2xl animate-slide-up transition-colors">
               {/* Decorative icon */}
               <div className="absolute -top-4 left-1/2 -translate-x-1/2">
-                <div className="w-14 h-14 bg-rose-100 rounded-full flex items-center justify-center shadow-lg shadow-rose-500/20">
-                  <svg className="w-7 h-7 text-rose-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <div className="w-14 h-14 bg-rose-100 dark:bg-rose-950/50 rounded-full flex items-center justify-center shadow-lg shadow-rose-500/20">
+                  <svg className="w-7 h-7 text-rose-600 dark:text-rose-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
                   </svg>
                 </div>
               </div>
 
               <div className="mt-8 text-center">
-                <h3 className={`${playfair.className} text-2xl font-light text-gray-800 mb-2`}>
+                <h3 className={`${playfair.className} text-2xl font-light text-gray-800 dark:text-white mb-2`}>
                   Delete Bank Account
                 </h3>
                 
-                <div className="w-12 h-0.5 bg-rose-200 mx-auto mb-4" />
+                <div className="w-12 h-0.5 bg-rose-200 dark:bg-rose-800 mx-auto mb-4" />
                 
-                <p className={`${raleway.className} text-gray-500 mb-6 leading-relaxed`}>
+                <p className={`${raleway.className} text-gray-500 dark:text-gray-400 mb-6 leading-relaxed`}>
                   Are you sure you want to delete the bank account for
                 </p>
                 
                 {/* Account info card */}
-                <div className="bg-rose-50 rounded-xl p-4 mb-6 border border-rose-100">
-                  <p className={`${raleway.className} font-semibold text-gray-800 text-lg`}>
+                <div className="bg-rose-50 dark:bg-rose-950/30 rounded-xl p-4 mb-6 border border-rose-100 dark:border-rose-900">
+                  <p className={`${raleway.className} font-semibold text-gray-800 dark:text-white text-lg`}>
                     {accountToDelete.name}
                   </p>
-                  <p className={`${raleway.className} text-sm text-gray-500 mt-1`}>
+                  <p className={`${raleway.className} text-sm text-gray-500 dark:text-gray-400 mt-1`}>
                     {accountToDelete.bankName} • {accountToDelete.accNumber}
                   </p>
                 </div>
                 
-                <p className={`${raleway.className} text-sm text-rose-600 font-medium mb-6`}>
+                <p className={`${raleway.className} text-sm text-rose-600 dark:text-rose-400 font-medium mb-6`}>
                   ⚠️ This action cannot be undone
                 </p>
 
                 <div className="flex flex-col sm:flex-row gap-3">
                   <button
                     onClick={closeDeleteModal}
-                    className="flex-1 px-4 py-3 border-2 border-gray-200 rounded-xl hover:bg-gray-50 transition-all duration-200 text-sm font-medium text-gray-600 order-2 sm:order-1"
+                    className="flex-1 px-4 py-3 border-2 border-gray-200 dark:border-gray-700 rounded-xl hover:bg-gray-50 dark:hover:bg-gray-800 transition-all duration-200 text-sm font-medium text-gray-600 dark:text-gray-300 order-2 sm:order-1"
                     disabled={deleteLoading}
                   >
                     Cancel
@@ -401,23 +401,23 @@ export default function BankAccountsPage() {
         )}
 
         {/* Header */}
-        <header className="bg-white/80 backdrop-blur-md border-b border-gray-200/50 sticky top-0 z-10">
+        <header className="bg-white/80 dark:bg-gray-900/80 backdrop-blur-md border-b border-gray-200/50 dark:border-gray-800/50 sticky top-0 z-10 transition-colors">
           <div className="px-4 sm:px-6 py-3 sm:py-4">
             <div className="flex items-center justify-between">
               <div className="flex items-center gap-3 min-w-0">
                 <button
                   onClick={() => setSidebarOpen(true)}
-                  className="lg:hidden text-gray-600 hover:text-gray-800 transition-colors p-1"
+                  className="lg:hidden text-gray-600 dark:text-gray-400 hover:text-gray-800 dark:hover:text-white transition-colors p-1"
                 >
                   <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6h16M4 12h16M4 18h16" />
                   </svg>
                 </button>
                 <div className="min-w-0">
-                  <h1 className={`${playfair.className} text-xl sm:text-2xl font-light text-gray-800 truncate`}>
+                  <h1 className={`${playfair.className} text-xl sm:text-2xl font-light text-gray-800 dark:text-white truncate`}>
                     💳 Bank Accounts
                   </h1>
-                  <p className={`${caveat.className} text-xs sm:text-sm text-gray-500 truncate`}>
+                  <p className={`${caveat.className} text-xs sm:text-sm text-gray-500 dark:text-gray-400 truncate`}>
                     Manage payout bank accounts
                   </p>
                 </div>
@@ -438,50 +438,50 @@ export default function BankAccountsPage() {
         <div className="p-4 sm:p-6 max-w-7xl mx-auto" id="accounts-section">
           {/* Stats Cards */}
           <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 sm:gap-4 mb-4 sm:mb-6">
-            <div className="bg-white rounded-xl p-4 sm:p-6 shadow-sm border hover:shadow-md transition-shadow">
-              <p className={`${raleway.className} text-xs sm:text-sm text-gray-500`}>Total Accounts</p>
-              <p className={`${playfair.className} text-xl sm:text-2xl font-light mt-1 text-indigo-600`}>
+            <div className="bg-white dark:bg-gray-900 rounded-xl p-4 sm:p-6 shadow-sm border border-gray-200 dark:border-gray-800 hover:shadow-md transition-shadow">
+              <p className={`${raleway.className} text-xs sm:text-sm text-gray-500 dark:text-gray-400`}>Total Accounts</p>
+              <p className={`${playfair.className} text-xl sm:text-2xl font-light mt-1 text-indigo-600 dark:text-indigo-400`}>
                 {totalAccounts}
               </p>
             </div>
-            <div className="bg-white rounded-xl p-4 sm:p-6 shadow-sm border hover:shadow-md transition-shadow">
-              <p className={`${raleway.className} text-xs sm:text-sm text-gray-500`}>Banks</p>
-              <p className={`${playfair.className} text-xl sm:text-2xl font-light mt-1 text-emerald-600`}>
+            <div className="bg-white dark:bg-gray-900 rounded-xl p-4 sm:p-6 shadow-sm border border-gray-200 dark:border-gray-800 hover:shadow-md transition-shadow">
+              <p className={`${raleway.className} text-xs sm:text-sm text-gray-500 dark:text-gray-400`}>Banks</p>
+              <p className={`${playfair.className} text-xl sm:text-2xl font-light mt-1 text-emerald-600 dark:text-emerald-400`}>
                 {uniqueBanks}
               </p>
             </div>
-            <div className="bg-white rounded-xl p-4 sm:p-6 shadow-sm border hover:shadow-md transition-shadow">
-              <p className={`${raleway.className} text-xs sm:text-sm text-gray-500`}>Account Holders</p>
-              <p className={`${playfair.className} text-xl sm:text-2xl font-light mt-1 text-amber-600`}>
+            <div className="bg-white dark:bg-gray-900 rounded-xl p-4 sm:p-6 shadow-sm border border-gray-200 dark:border-gray-800 hover:shadow-md transition-shadow">
+              <p className={`${raleway.className} text-xs sm:text-sm text-gray-500 dark:text-gray-400`}>Account Holders</p>
+              <p className={`${playfair.className} text-xl sm:text-2xl font-light mt-1 text-amber-600 dark:text-amber-400`}>
                 {accounts.length}
               </p>
             </div>
-            <div className="bg-white rounded-xl p-4 sm:p-6 shadow-sm border hover:shadow-md transition-shadow">
-              <p className={`${raleway.className} text-xs sm:text-sm text-gray-500`}>Active</p>
-              <p className={`${playfair.className} text-xl sm:text-2xl font-light mt-1 text-blue-600`}>
+            <div className="bg-white dark:bg-gray-900 rounded-xl p-4 sm:p-6 shadow-sm border border-gray-200 dark:border-gray-800 hover:shadow-md transition-shadow">
+              <p className={`${raleway.className} text-xs sm:text-sm text-gray-500 dark:text-gray-400`}>Active</p>
+              <p className={`${playfair.className} text-xl sm:text-2xl font-light mt-1 text-blue-600 dark:text-blue-400`}>
                 {activeAccounts}
               </p>
             </div>
           </div>
 
           {/* Accounts List */}
-          <div className="bg-white rounded-xl shadow-sm border overflow-hidden">
+          <div className="bg-white dark:bg-gray-900 rounded-xl shadow-sm border border-gray-200 dark:border-gray-800 overflow-hidden transition-colors">
             {/* Search */}
-            <div className="p-3 sm:p-4 border-b">
+            <div className="p-3 sm:p-4 border-b border-gray-200 dark:border-gray-800">
               <div className="flex gap-2">
                 <input
                   type="text"
                   placeholder="Search by name, account number, or bank..."
                   value={searchTerm}
                   onChange={(e) => setSearchTerm(e.target.value)}
-                  className="flex-1 px-3 sm:px-4 py-2 border rounded-xl focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent transition-all text-sm"
+                  className="flex-1 px-3 sm:px-4 py-2 border border-gray-300 dark:border-gray-700 rounded-xl bg-white dark:bg-gray-800 text-gray-900 dark:text-white placeholder-gray-400 dark:placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent transition-all text-sm"
                 />
                 <button
                   onClick={() => setSearchTerm("")}
                   className={`px-3 sm:px-4 py-2 rounded-xl transition-colors text-sm whitespace-nowrap ${
                     searchTerm 
-                      ? "bg-gray-200 text-gray-700 hover:bg-gray-300" 
-                      : "bg-gray-100 text-gray-400 cursor-not-allowed"
+                      ? "bg-gray-200 dark:bg-gray-700 text-gray-700 dark:text-gray-200 hover:bg-gray-300 dark:hover:bg-gray-600" 
+                      : "bg-gray-100 dark:bg-gray-800 text-gray-400 dark:text-gray-500 cursor-not-allowed"
                   }`}
                   disabled={!searchTerm}
                 >
@@ -495,7 +495,7 @@ export default function BankAccountsPage() {
               {filteredAccounts.length === 0 ? (
                 <div className="text-center py-12">
                   <div className="text-6xl mb-4">🏦</div>
-                  <p className={`${raleway.className} text-gray-500`}>
+                  <p className={`${raleway.className} text-gray-500 dark:text-gray-400`}>
                     {accounts.length === 0
                       ? "No bank accounts yet. Add your first account!"
                       : "No accounts match your search"}
@@ -504,7 +504,7 @@ export default function BankAccountsPage() {
               ) : (
                 <>
                   <div className="flex justify-between items-center mb-4">
-                    <p className={`${raleway.className} text-sm text-gray-500`}>
+                    <p className={`${raleway.className} text-sm text-gray-500 dark:text-gray-400`}>
                       Showing {filteredAccounts.length} of {accounts.length} accounts
                     </p>
                   </div>
@@ -512,15 +512,15 @@ export default function BankAccountsPage() {
                     {filteredAccounts.map((account) => (
                       <div
                         key={account._id}
-                        className="bg-gradient-to-br from-white to-gray-50 rounded-xl p-5 sm:p-6 border border-gray-100 hover:shadow-lg transition-all duration-300 group relative"
+                        className="bg-gradient-to-br from-white to-gray-50 dark:from-gray-900 dark:to-gray-800 rounded-xl p-5 sm:p-6 border border-gray-100 dark:border-gray-800 hover:shadow-lg transition-all duration-300 group relative"
                       >
                         {/* Delete Button - Now more visible */}
                         <button
                           onClick={() => openDeleteModal(account)}
-                          className="absolute top-30 right-3 p-2 bg-white/80 backdrop-blur-sm rounded-full shadow-md hover:shadow-lg border border-gray-200 hover:border-rose-300 hover:bg-rose-50 transition-all duration-200 group-hover:scale-110"
+                          className="absolute top-30 right-3 p-2 bg-white/80 dark:bg-gray-800/80 backdrop-blur-sm rounded-full shadow-md hover:shadow-lg border border-gray-200 dark:border-gray-700 hover:border-rose-300 dark:hover:border-rose-700 hover:bg-rose-50 dark:hover:bg-rose-950/30 transition-all duration-200 group-hover:scale-110"
                           aria-label="Delete account"
                         >
-                          <svg className="w-4 h-4 text-gray-400 hover:text-rose-500 transition-colors" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                          <svg className="w-4 h-4 text-gray-400 dark:text-gray-500 hover:text-rose-500 transition-colors" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
                           </svg>
                         </button>
@@ -530,28 +530,28 @@ export default function BankAccountsPage() {
                             {account.name?.charAt(0).toUpperCase() || "?"}
                           </div>
                           <div className="flex-1 min-w-0">
-                            <h3 className={`${raleway.className} font-semibold text-gray-800 truncate`}>
+                            <h3 className={`${raleway.className} font-semibold text-gray-800 dark:text-white truncate`}>
                               {account.name}
                             </h3>
-                            <p className={`${raleway.className} text-sm text-gray-500 mt-0.5`}>
+                            <p className={`${raleway.className} text-sm text-gray-500 dark:text-gray-400 mt-0.5`}>
                               {account.bankName}
                             </p>
                             <div className="flex items-center gap-2 mt-2">
-                              <span className="px-2 py-0.5 bg-indigo-50 text-indigo-600 text-xs font-medium rounded-full">
+                              <span className="px-2 py-0.5 bg-indigo-50 dark:bg-indigo-950/50 text-indigo-600 dark:text-indigo-400 text-xs font-medium rounded-full">
                                 {account.accNumber}
                               </span>
                             </div>
                           </div>
                         </div>
 
-                        <div className="mt-4 pt-4 border-t border-gray-100 flex justify-between items-center">
-                          <span className="text-xs text-gray-400 uppercase tracking-wider">
+                        <div className="mt-4 pt-4 border-t border-gray-100 dark:border-gray-800 flex justify-between items-center">
+                          <span className="text-xs text-gray-400 dark:text-gray-500 uppercase tracking-wider">
                             {account.bankName}
                           </span>
                           {/* Additional delete link at bottom for better visibility */}
                           <button
                             onClick={() => openDeleteModal(account)}
-                            className=" text-xs text-rose-400 hover:text-rose-600 transition-colors font-medium opacity-0 group-hover:opacity-100"
+                            className=" text-xs text-rose-400 dark:text-rose-500 hover:text-rose-600 dark:hover:text-rose-400 transition-colors font-medium opacity-0 group-hover:opacity-100"
                           >
                             Delete
                           </button>
@@ -568,14 +568,14 @@ export default function BankAccountsPage() {
         {/* Create Account Modal */}
         {showCreateModal && (
           <div className="fixed inset-0 bg-black/50 backdrop-blur-sm flex items-center justify-center z-50 p-4">
-            <div className="bg-white rounded-2xl max-w-md w-full max-h-[90vh] overflow-y-auto shadow-2xl animate-slide-up">
-              <div className="sticky top-0 bg-white border-b border-gray-100 px-6 py-4 flex justify-between items-center">
-                <h2 className={`${playfair.className} text-xl font-light text-gray-800`}>
+            <div className="bg-white dark:bg-gray-900 rounded-2xl max-w-md w-full max-h-[90vh] overflow-y-auto shadow-2xl animate-slide-up transition-colors">
+              <div className="sticky top-0 bg-white dark:bg-gray-900 border-b border-gray-100 dark:border-gray-800 px-6 py-4 flex justify-between items-center">
+                <h2 className={`${playfair.className} text-xl font-light text-gray-800 dark:text-white`}>
                   Add Bank Account
                 </h2>
                 <button
                   onClick={() => setShowCreateModal(false)}
-                  className="text-gray-400 hover:text-gray-600 transition-colors p-1 rounded-full hover:bg-gray-100"
+                  className="text-gray-400 dark:text-gray-500 hover:text-gray-600 dark:hover:text-white transition-colors p-1 rounded-full hover:bg-gray-100 dark:hover:bg-gray-800"
                 >
                   <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
@@ -585,7 +585,7 @@ export default function BankAccountsPage() {
 
               <form onSubmit={handleSubmit} className="p-6 space-y-6">
                 <div>
-                  <label className={`${raleway.className} text-sm font-medium text-gray-700 block mb-1.5`}>
+                  <label className={`${raleway.className} text-sm font-medium text-gray-700 dark:text-gray-300 block mb-1.5`}>
                     Account Holder Name *
                   </label>
                   <input
@@ -594,13 +594,13 @@ export default function BankAccountsPage() {
                     value={formData.name}
                     onChange={handleChange}
                     required
-                    className="w-full px-4 py-2.5 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent transition-all text-sm"
+                    className="w-full px-4 py-2.5 border border-gray-300 dark:border-gray-700 rounded-xl bg-white dark:bg-gray-800 text-gray-900 dark:text-white placeholder-gray-400 dark:placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent transition-all text-sm"
                     placeholder="e.g., John Doe"
                   />
                 </div>
 
                 <div>
-                  <label className={`${raleway.className} text-sm font-medium text-gray-700 block mb-1.5`}>
+                  <label className={`${raleway.className} text-sm font-medium text-gray-700 dark:text-gray-300 block mb-1.5`}>
                     Account Number *
                   </label>
                   <input
@@ -609,13 +609,13 @@ export default function BankAccountsPage() {
                     value={formData.accNumber}
                     onChange={handleChange}
                     required
-                    className="w-full px-4 py-2.5 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent transition-all text-sm"
+                    className="w-full px-4 py-2.5 border border-gray-300 dark:border-gray-700 rounded-xl bg-white dark:bg-gray-800 text-gray-900 dark:text-white placeholder-gray-400 dark:placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent transition-all text-sm"
                     placeholder="e.g., 9063810310"
                   />
                 </div>
 
                 <div>
-                  <label className={`${raleway.className} text-sm font-medium text-gray-700 block mb-1.5`}>
+                  <label className={`${raleway.className} text-sm font-medium text-gray-700 dark:text-gray-300 block mb-1.5`}>
                     Bank Name *
                   </label>
                   <input
@@ -624,13 +624,13 @@ export default function BankAccountsPage() {
                     value={formData.bankName}
                     onChange={handleChange}
                     required
-                    className="w-full px-4 py-2.5 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent transition-all text-sm"
+                    className="w-full px-4 py-2.5 border border-gray-300 dark:border-gray-700 rounded-xl bg-white dark:bg-gray-800 text-gray-900 dark:text-white placeholder-gray-400 dark:placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent transition-all text-sm"
                     placeholder="e.g., Opay, GTBank, Access Bank"
                   />
                 </div>
 
                 {formError && (
-                  <div className="bg-rose-50 text-rose-600 p-3 rounded-xl text-sm font-medium">
+                  <div className="bg-rose-50 dark:bg-rose-950/30 text-rose-600 dark:text-rose-400 p-3 rounded-xl text-sm font-medium">
                     {formError}
                   </div>
                 )}
@@ -639,7 +639,7 @@ export default function BankAccountsPage() {
                   <button
                     type="button"
                     onClick={() => setShowCreateModal(false)}
-                    className="flex-1 px-4 py-2.5 border border-gray-300 rounded-xl hover:bg-gray-50 transition-colors text-sm font-medium order-2 sm:order-1"
+                    className="flex-1 px-4 py-2.5 border border-gray-300 dark:border-gray-700 text-gray-700 dark:text-gray-300 rounded-xl hover:bg-gray-50 dark:hover:bg-gray-800 transition-colors text-sm font-medium order-2 sm:order-1"
                   >
                     Cancel
                   </button>

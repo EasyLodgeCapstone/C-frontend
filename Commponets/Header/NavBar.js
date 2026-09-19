@@ -113,7 +113,7 @@ export default function NavBar() {
 
   return (
     <>
-      <nav className="bg-white shadow-lg border-b border-gray-200 sticky top-0 z-50">
+      <nav className="bg-white dark:bg-gray-900 shadow-lg border-b border-gray-200 dark:border-gray-800 sticky top-0 z-50 transition-colors">
         <div className="container mx-auto px-4 py-3 max-w-7xl">
           <div className="flex justify-between items-center">
             {/* Logo Section */}
@@ -132,12 +132,12 @@ export default function NavBar() {
               </div>
               <div>
                 <h2
-                  className={`${dancing.className} text-2xl font-bold text-black leading-tight`}
+                  className={`${dancing.className} text-2xl font-bold text-black dark:text-white leading-tight`}
                 >
                   B&B BodyCare
                 </h2>
                 <p
-                  className={`${caveat.className} text-xs text-gray-500 -mt-1`}
+                  className={`${caveat.className} text-xs text-gray-500 dark:text-gray-400 -mt-1`}
                 >
                   natural beauty
                 </p>
@@ -152,13 +152,13 @@ export default function NavBar() {
                   href={item.path}
                   className={`${raleway.className} relative px-4 py-2 text-sm font-medium transition-all duration-300 group ${
                     isActive(item.path)
-                      ? "text-black"
-                      : "text-gray-600 hover:text-black"
+                      ? "text-black dark:text-white"
+                      : "text-gray-600 dark:text-gray-400 hover:text-black dark:hover:text-white"
                   }`}
                 >
                   {item.name}
                   <span
-                    className={`absolute bottom-0 left-0 h-0.5 bg-black transition-all duration-300 ${
+                    className={`absolute bottom-0 left-0 h-0.5 bg-black dark:bg-white transition-all duration-300 ${
                       isActive(item.path) ? "w-full" : "w-0 group-hover:w-full"
                     }`}
                   />
@@ -169,7 +169,7 @@ export default function NavBar() {
               {isLoggedIn && (
                 <Link
                   href="/Protected/cart"
-                  className="ml-4 p-2 text-gray-600 hover:text-black transition-colors relative"
+                  className="ml-4 p-2 text-gray-600 dark:text-gray-400 hover:text-black dark:hover:text-white transition-colors relative"
                 >
                   <svg
                     className="w-5 h-5"
@@ -185,7 +185,7 @@ export default function NavBar() {
                     />
                   </svg>
                   {cartCount > 0 && (
-                    <span className="absolute -top-1 -right-1 bg-black text-white text-xs rounded-full w-5 h-5 flex items-center justify-center">
+                    <span className="absolute -top-1 -right-1 bg-black dark:bg-white text-white dark:text-gray-900 text-xs rounded-full w-5 h-5 flex items-center justify-center">
                       {cartCount}
                     </span>
                   )}
@@ -195,7 +195,7 @@ export default function NavBar() {
               {/* Auth Section */}
               {loading ? (
                 // Loading state
-                <div className="ml-4 w-8 h-8 border-2 border-gray-300 border-t-black rounded-full animate-spin" />
+                <div className="ml-4 w-8 h-8 border-2 border-gray-300 dark:border-gray-700 border-t-black dark:border-t-white rounded-full animate-spin" />
               ) : isLoggedIn ? (
                 //  LOGGED IN - Show user profile
                 <div className="ml-4 flex items-center gap-3">
@@ -203,18 +203,18 @@ export default function NavBar() {
                     href="/Protected/profile"
                     className="flex items-center gap-2 group"
                   >
-                    <div className="w-8 h-8 bg-black rounded-full flex items-center justify-center text-white text-sm font-semibold">
+                    <div className="w-8 h-8 bg-black dark:bg-white rounded-full flex items-center justify-center text-white dark:text-gray-900 text-sm font-semibold">
                       {user?.name ? user.name[0].toUpperCase() : "U"}
                     </div>
                     <span
-                      className={`${raleway.className} text-sm text-gray-700 group-hover:text-black transition-colors hidden lg:block`}
+                      className={`${raleway.className} text-sm text-gray-700 dark:text-gray-300 group-hover:text-black dark:group-hover:text-white transition-colors hidden lg:block`}
                     >
                       {user?.name || "Account"}
                     </span>
                   </Link>
                   <button
                     onClick={handleLogout}
-                    className={`${raleway.className} text-sm text-gray-500 hover:text-black transition-colors`}
+                    className={`${raleway.className} text-sm text-gray-500 dark:text-gray-400 hover:text-black dark:hover:text-white transition-colors`}
                   >
                     Logout
                   </button>
@@ -224,13 +224,13 @@ export default function NavBar() {
                 <div className="ml-4 flex items-center gap-2">
                   <button
                     onClick={() => handleComingSoon("login")}
-                    className={`${raleway.className} px-4 py-2 text-sm font-medium text-gray-700 hover:text-black transition-colors`}
+                    className={`${raleway.className} px-4 py-2 text-sm font-medium text-gray-700 dark:text-gray-300 hover:text-black dark:hover:text-white transition-colors`}
                   >
                     Login
                   </button>
                   <button
                     onClick={() => handleComingSoon("signup")}
-                    className={`${raleway.className} px-4 py-2 text-sm font-medium text-white bg-black rounded-full hover:bg-gray-800 transition-colors`}
+                    className={`${raleway.className} px-4 py-2 text-sm font-medium text-white dark:text-gray-900 bg-black dark:bg-white rounded-full hover:bg-gray-800 dark:hover:bg-gray-200 transition-colors`}
                   >
                     Sign Up
                   </button>
@@ -241,22 +241,22 @@ export default function NavBar() {
             {/* Mobile Menu Button */}
             <button
               onClick={() => setIsMenuOpen(!isMenuOpen)}
-              className="md:hidden p-2 text-gray-600 hover:text-black transition-colors focus:outline-none"
+              className="md:hidden p-2 text-gray-600 dark:text-gray-400 hover:text-black dark:hover:text-white transition-colors focus:outline-none"
               aria-label="Toggle menu"
             >
               <div className="w-6 h-5 flex flex-col justify-between">
                 <span
-                  className={`block h-0.5 bg-black transition-all duration-300 ${
+                  className={`block h-0.5 bg-black dark:bg-white transition-all duration-300 ${
                     isMenuOpen ? "rotate-45 translate-y-2" : ""
                   }`}
                 />
                 <span
-                  className={`block h-0.5 bg-black transition-all duration-300 ${
+                  className={`block h-0.5 bg-black dark:bg-white transition-all duration-300 ${
                     isMenuOpen ? "opacity-0" : ""
                   }`}
                 />
                 <span
-                  className={`block h-0.5 bg-black transition-all duration-300 ${
+                  className={`block h-0.5 bg-black dark:bg-white transition-all duration-300 ${
                     isMenuOpen ? "-rotate-45 -translate-y-2" : ""
                   }`}
                 />
@@ -270,7 +270,7 @@ export default function NavBar() {
               isMenuOpen ? "max-h-96 opacity-100 mt-4" : "max-h-0 opacity-0"
             }`}
           >
-            <div className="border-t border-gray-200 pt-4 space-y-2">
+            <div className="border-t border-gray-200 dark:border-gray-800 pt-4 space-y-2">
               {navLinks.map((item) => (
                 <Link
                   key={item.name}
@@ -278,21 +278,21 @@ export default function NavBar() {
                   onClick={() => setIsMenuOpen(false)}
                   className={`${raleway.className} block px-4 py-2 text-sm font-medium rounded-lg transition-all ${
                     isActive(item.path)
-                      ? "bg-black text-white"
-                      : "text-gray-600 hover:bg-gray-100 hover:text-black"
+                      ? "bg-black dark:bg-white text-white dark:text-gray-900"
+                      : "text-gray-600 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-800 hover:text-black dark:hover:text-white"
                   }`}
                 >
                   {item.name}
                 </Link>
               ))}
 
-              <div className="flex flex-col gap-2 pt-4 border-t border-gray-200">
+              <div className="flex flex-col gap-2 pt-4 border-t border-gray-200 dark:border-gray-800">
                 {/* Cart in mobile - Only show when LOGGED IN */}
                 {isLoggedIn && (
                   <Link
                     href="/Protected/cart"
                     onClick={() => setIsMenuOpen(false)}
-                    className="flex items-center justify-between px-4 py-2 text-gray-600 hover:bg-gray-100 rounded-lg transition-colors"
+                    className="flex items-center justify-between px-4 py-2 text-gray-600 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-800 rounded-lg transition-colors"
                   >
                     <div className="flex items-center gap-2">
                       <svg
@@ -313,7 +313,7 @@ export default function NavBar() {
                       </span>
                     </div>
                     {cartCount > 0 && (
-                      <span className="bg-black text-white text-xs rounded-full w-5 h-5 flex items-center justify-center">
+                      <span className="bg-black dark:bg-white text-white dark:text-gray-900 text-xs rounded-full w-5 h-5 flex items-center justify-center">
                         {cartCount}
                       </span>
                     )}
@@ -323,7 +323,7 @@ export default function NavBar() {
                 {/* Auth in mobile */}
                 {loading ? (
                   <div className="flex justify-center py-2">
-                    <div className="w-6 h-6 border-2 border-gray-300 border-t-black rounded-full animate-spin" />
+                    <div className="w-6 h-6 border-2 border-gray-300 dark:border-gray-700 border-t-black dark:border-t-white rounded-full animate-spin" />
                   </div>
                 ) : isLoggedIn ? (
                   //  LOGGED IN - Mobile profile
@@ -331,9 +331,9 @@ export default function NavBar() {
                     <Link
                       href="/Protected/profile"
                       onClick={() => setIsMenuOpen(false)}
-                      className="flex items-center gap-3 px-4 py-2 text-gray-700 hover:bg-gray-100 rounded-lg transition-colors"
+                      className="flex items-center gap-3 px-4 py-2 text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-800 rounded-lg transition-colors"
                     >
-                      <div className="w-8 h-8 bg-black rounded-full flex items-center justify-center text-white text-sm font-semibold">
+                      <div className="w-8 h-8 bg-black dark:bg-white rounded-full flex items-center justify-center text-white dark:text-gray-900 text-sm font-semibold">
                         {user?.name ? user.name[0].toUpperCase() : "U"}
                       </div>
                       <span className={`${raleway.className} text-sm`}>
@@ -345,7 +345,7 @@ export default function NavBar() {
                         handleLogout();
                         setIsMenuOpen(false);
                       }}
-                      className={`${raleway.className} text-left px-4 py-2 text-sm text-red-600 hover:bg-red-50 rounded-lg transition-colors`}
+                      className={`${raleway.className} text-left px-4 py-2 text-sm text-red-600 dark:text-red-400 hover:bg-red-50 dark:hover:bg-red-950/30 rounded-lg transition-colors`}
                     >
                       Logout
                     </button>
@@ -358,7 +358,7 @@ export default function NavBar() {
                         handleComingSoon("login");
                         setIsMenuOpen(false);
                       }}
-                      className={`${raleway.className} px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 rounded-lg transition-colors text-left`}
+                      className={`${raleway.className} px-4 py-2 text-sm text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-800 rounded-lg transition-colors text-left`}
                     >
                       Login
                     </button>
@@ -367,7 +367,7 @@ export default function NavBar() {
                         handleComingSoon("signup");
                         setIsMenuOpen(false);
                       }}
-                      className={`${raleway.className} px-4 py-2 text-sm text-center text-white bg-black rounded-lg hover:bg-gray-800 transition-colors`}
+                      className={`${raleway.className} px-4 py-2 text-sm text-center text-white dark:text-gray-900 bg-black dark:bg-white rounded-lg hover:bg-gray-800 dark:hover:bg-gray-200 transition-colors`}
                     >
                       Sign Up
                     </button>
@@ -386,10 +386,10 @@ export default function NavBar() {
             className="absolute inset-0 bg-black/50 backdrop-blur-sm"
             onClick={() => setShowComingSoon(false)}
           />
-          <div className="relative bg-white rounded-2xl shadow-2xl max-w-md w-full p-8 transform animate-scale-up">
+          <div className="relative bg-white dark:bg-gray-900 rounded-2xl shadow-2xl max-w-md w-full p-8 transform animate-scale-up transition-colors">
             <button
               onClick={() => setShowComingSoon(false)}
-              className="absolute top-4 right-4 text-gray-400 hover:text-black transition-colors"
+              className="absolute top-4 right-4 text-gray-400 dark:text-gray-500 hover:text-black dark:hover:text-white transition-colors"
             >
               <svg
                 className="w-6 h-6"
@@ -408,17 +408,17 @@ export default function NavBar() {
             <div className="text-center">
               <div className="text-6xl mb-4 animate-bounce">🚀</div>
               <h3
-                className={`${playfair.className} text-3xl font-bold text-black mb-2`}
+                className={`${playfair.className} text-3xl font-bold text-black dark:text-white mb-2`}
               >
                 Coming Soon!
               </h3>
-              <p className={`${raleway.className} text-gray-600 text-lg mb-4`}>
+              <p className={`${raleway.className} text-gray-600 dark:text-gray-300 text-lg mb-4`}>
                 {comingSoonMessage}
               </p>
-              <p className={`${caveat.className} text-gray-400 text-sm`}>
+              <p className={`${caveat.className} text-gray-400 dark:text-gray-500 text-sm`}>
                 We`re working hard to bring you this feature ✨
               </p>
-              <div className="w-16 h-1 bg-black mx-auto mt-4" />
+              <div className="w-16 h-1 bg-black dark:bg-white mx-auto mt-4" />
             </div>
           </div>
         </div>

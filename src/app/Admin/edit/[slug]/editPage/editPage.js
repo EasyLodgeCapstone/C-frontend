@@ -95,7 +95,6 @@ export default function EditProductPage() {
       setProduct(productData);
       console.log("Fetched product data:",productData);
 
-      //  Populate form with current data - THIS IS WHAT YOU WANT
       setFormData({
         productName: productData.productName ,
         productDescription: productData.productDescription || "",
@@ -204,10 +203,10 @@ export default function EditProductPage() {
 
   if (loading) {
     return (
-      <div className="min-h-screen flex items-center justify-center bg-gray-50">
+      <div className="min-h-screen flex items-center justify-center bg-gray-50 dark:bg-gray-950 transition-colors">
         <div className="text-center">
-          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-black mx-auto"></div>
-          <p className={`${raleway.className} text-gray-500 mt-4`}>Loading product...</p>
+          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-black dark:border-white mx-auto"></div>
+          <p className={`${raleway.className} text-gray-500 dark:text-gray-400 mt-4`}>Loading product...</p>
         </div>
       </div>
     );
@@ -215,22 +214,22 @@ export default function EditProductPage() {
 
   if (error && !formData.productName) {
     return (
-      <div className="min-h-screen flex items-center justify-center bg-gray-50 px-4">
+      <div className="min-h-screen flex items-center justify-center bg-gray-50 dark:bg-gray-950 px-4 transition-colors">
         <div className="text-center">
           <div className="text-6xl mb-4">😢</div>
-          <h2 className={`${playfair.className} text-2xl font-light text-black mb-2`}>
+          <h2 className={`${playfair.className} text-2xl font-light text-black dark:text-white mb-2`}>
             Failed to Load Product
           </h2>
-          <p className={`${raleway.className} text-gray-500`}>{error}</p>
+          <p className={`${raleway.className} text-gray-500 dark:text-gray-400`}>{error}</p>
           <button
             onClick={fetchProduct}
-            className="mt-4 px-6 py-2 bg-black text-white rounded-lg hover:bg-gray-800 transition-colors"
+            className="mt-4 px-6 py-2 bg-black dark:bg-white text-white dark:text-gray-900 rounded-lg hover:bg-gray-800 dark:hover:bg-gray-200 transition-colors"
           >
             Try Again
           </button>
           <Link
             href="/Admin/dashboard"
-            className="inline-block mt-2 px-6 py-2 border border-gray-300 rounded-lg hover:bg-gray-100 transition-colors ml-2"
+            className="inline-block mt-2 px-6 py-2 border border-gray-300 dark:border-gray-700 text-gray-900 dark:text-white rounded-lg hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors ml-2"
           >
             Back to Dashboard
           </Link>
@@ -240,21 +239,21 @@ export default function EditProductPage() {
   }
 
   return (
-    <div className="min-h-screen bg-gray-50 py-8">
+    <div className="min-h-screen bg-gray-50 dark:bg-gray-950 py-8 transition-colors">
       <div className="container mx-auto px-4 max-w-4xl">
         {/* Header */}
         <div className="flex items-center justify-between mb-8">
           <div>
-            <h1 className={`${playfair.className} text-3xl font-light text-black`}>
+            <h1 className={`${playfair.className} text-3xl font-light text-black dark:text-white`}>
               Edit Product
             </h1>
-            <p className={`${raleway.className} text-gray-500 text-sm mt-1`}>
+            <p className={`${raleway.className} text-gray-500 dark:text-gray-400 text-sm mt-1`}>
               Update product details
             </p>
           </div>
           <Link
             href="/Admin/dashboard"
-            className="px-4 py-2 border border-gray-300 rounded-lg hover:bg-gray-100 transition-colors text-sm"
+            className="px-4 py-2 border border-gray-300 dark:border-gray-700 text-gray-900 dark:text-white rounded-lg hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors text-sm"
           >
             Back to Dashboard
           </Link>
@@ -262,83 +261,83 @@ export default function EditProductPage() {
 
         {/* Success Message */}
         {success && (
-          <div className="bg-green-50 border border-green-200 text-green-700 px-4 py-3 rounded-lg mb-6">
+          <div className="bg-green-50 dark:bg-green-950/50 border border-green-200 dark:border-green-800 text-green-700 dark:text-green-400 px-4 py-3 rounded-lg mb-6">
             {success}
           </div>
         )}
 
         {/* Error Message */}
         {error && (
-          <div className="bg-red-50 border border-red-200 text-red-700 px-4 py-3 rounded-lg mb-6">
+          <div className="bg-red-50 dark:bg-red-950/50 border border-red-200 dark:border-red-800 text-red-700 dark:text-red-400 px-4 py-3 rounded-lg mb-6">
             {error}
           </div>
         )}
 
         {/* Edit Form */}
-        <form onSubmit={handleSubmit} className="bg-white rounded-xl shadow-sm border border-gray-100 p-6">
+        <form onSubmit={handleSubmit} className="bg-white dark:bg-gray-900 rounded-xl shadow-sm border border-gray-100 dark:border-gray-800 p-6 transition-colors">
           {/* Basic Information */}
           <div className="space-y-4">
-            <h2 className={`${playfair.className} text-xl font-light text-black`}>
+            <h2 className={`${playfair.className} text-xl font-light text-black dark:text-white`}>
               Basic Information
             </h2>
 
             <div>
-              <label className={`${raleway.className} text-sm font-medium text-gray-700 block mb-1`}>
+              <label className={`${raleway.className} text-sm font-medium text-gray-700 dark:text-gray-300 block mb-1`}>
                 Product Name *
               </label>
               <input
                 type="text"
                 name="productName"
-                value={formData.productName}  //  Shows current product name
+                value={formData.productName}
                 onChange={handleChange}
                 required
-                className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:border-black transition-colors"
+                className="w-full px-4 py-2 border border-gray-300 dark:border-gray-700 rounded-lg bg-white dark:bg-gray-800 text-gray-900 dark:text-white placeholder-gray-400 dark:placeholder-gray-500 focus:outline-none focus:border-black dark:focus:border-white transition-colors"
                 placeholder="e.g., Hydrating Face Cream"
               />
             </div>
 
             <div>
-              <label className={`${raleway.className} text-sm font-medium text-gray-700 block mb-1`}>
+              <label className={`${raleway.className} text-sm font-medium text-gray-700 dark:text-gray-300 block mb-1`}>
                 Product Description *
               </label>
               <textarea
                 name="productDescription"
-                value={formData.productDescription}  //  Shows current description
+                value={formData.productDescription}
                 onChange={handleChange}
                 required
                 rows="4"
-                className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:border-black transition-colors"
+                className="w-full px-4 py-2 border border-gray-300 dark:border-gray-700 rounded-lg bg-white dark:bg-gray-800 text-gray-900 dark:text-white placeholder-gray-400 dark:placeholder-gray-500 focus:outline-none focus:border-black dark:focus:border-white transition-colors"
                 placeholder="Describe your product..."
               />
             </div>
 
             <div className="grid grid-cols-2 gap-4">
               <div>
-                <label className={`${raleway.className} text-sm font-medium text-gray-700 block mb-1`}>
+                <label className={`${raleway.className} text-sm font-medium text-gray-700 dark:text-gray-300 block mb-1`}>
                   Price (₦) *
                 </label>
                 <input
                   type="number"
                   name="productPrice"
-                  value={formData.productPrice}  //  Shows current price
+                  value={formData.productPrice}
                   onChange={handleChange}
                   required
                   step="0.01"
-                  className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:border-black transition-colors"
+                  className="w-full px-4 py-2 border border-gray-300 dark:border-gray-700 rounded-lg bg-white dark:bg-gray-800 text-gray-900 dark:text-white placeholder-gray-400 dark:placeholder-gray-500 focus:outline-none focus:border-black dark:focus:border-white transition-colors"
                   placeholder="49.99"
                 />
               </div>
               <div>
-                <label className={`${raleway.className} text-sm font-medium text-gray-700 block mb-1`}>
+                <label className={`${raleway.className} text-sm font-medium text-gray-700 dark:text-gray-300 block mb-1`}>
                   Discount Price (₦)
                 </label>
                 <input
                   type="number"
                   name="discountPrice"
-                  value={formData.discountPrice}  //  Shows current discount price
+                  value={formData.discountPrice}
                   onChange={handleChange}
                   step="0.01"
-                  className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:border-black transition-colors"
+                  className="w-full px-4 py-2 border border-gray-300 dark:border-gray-700 rounded-lg bg-white dark:bg-gray-800 text-gray-900 dark:text-white placeholder-gray-400 dark:placeholder-gray-500 focus:outline-none focus:border-black dark:focus:border-white transition-colors"
                   placeholder="29.99"
                 />
               </div>
@@ -346,15 +345,15 @@ export default function EditProductPage() {
 
             <div className="grid grid-cols-2 gap-4">
               <div>
-                <label className={`${raleway.className} text-sm font-medium text-gray-700 block mb-1`}>
+                <label className={`${raleway.className} text-sm font-medium text-gray-700 dark:text-gray-300 block mb-1`}>
                   Category *
                 </label>
                 <select
                   name="category"
-                  value={formData.category}  //  Shows current category
+                  value={formData.category}
                   onChange={handleChange}
                   required
-                  className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:border-black transition-colors"
+                  className="w-full px-4 py-2 border border-gray-300 dark:border-gray-700 rounded-lg bg-white dark:bg-gray-800 text-gray-900 dark:text-white focus:outline-none focus:border-black dark:focus:border-white transition-colors"
                 >
                   <option value="">Select Category</option>
                   {categories.map((cat) => (
@@ -363,15 +362,15 @@ export default function EditProductPage() {
                 </select>
               </div>
               <div>
-                <label className={`${raleway.className} text-sm font-medium text-gray-700 block mb-1`}>
+                <label className={`${raleway.className} text-sm font-medium text-gray-700 dark:text-gray-300 block mb-1`}>
                   Sub Category
                 </label>
                 <input
                   type="text"
                   name="subCategory"
-                  value={formData.subCategory}  //  Shows current sub category
+                  value={formData.subCategory}
                   onChange={handleChange}
-                  className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:border-black transition-colors"
+                  className="w-full px-4 py-2 border border-gray-300 dark:border-gray-700 rounded-lg bg-white dark:bg-gray-800 text-gray-900 dark:text-white placeholder-gray-400 dark:placeholder-gray-500 focus:outline-none focus:border-black dark:focus:border-white transition-colors"
                   placeholder="e.g., Moisturizers"
                 />
               </div>
@@ -380,48 +379,48 @@ export default function EditProductPage() {
 
           {/* Product Details */}
           <div className="space-y-4 mt-6">
-            <h2 className={`${playfair.className} text-xl font-light text-black`}>
+            <h2 className={`${playfair.className} text-xl font-light text-black dark:text-white`}>
               Product Details
             </h2>
 
             <div>
-              <label className={`${raleway.className} text-sm font-medium text-gray-700 block mb-1`}>
+              <label className={`${raleway.className} text-sm font-medium text-gray-700 dark:text-gray-300 block mb-1`}>
                 Features
               </label>
               <input
                 type="text"
                 name="productFeatures"
-                value={formData.productFeatures}  //  Shows current features
+                value={formData.productFeatures}
                 onChange={handleChange}
-                className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:border-black transition-colors"
+                className="w-full px-4 py-2 border border-gray-300 dark:border-gray-700 rounded-lg bg-white dark:bg-gray-800 text-gray-900 dark:text-white placeholder-gray-400 dark:placeholder-gray-500 focus:outline-none focus:border-black dark:focus:border-white transition-colors"
                 placeholder="e.g., Hydrating, Anti-Aging, SPF 30"
               />
             </div>
 
             <div className="grid grid-cols-2 gap-4">
               <div>
-                <label className={`${raleway.className} text-sm font-medium text-gray-700 block mb-1`}>
+                <label className={`${raleway.className} text-sm font-medium text-gray-700 dark:text-gray-300 block mb-1`}>
                   Texture
                 </label>
                 <input
                   type="text"
                   name="texture"
-                  value={formData.texture}  //  Shows current texture
+                  value={formData.texture}
                   onChange={handleChange}
-                  className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:border-black transition-colors"
+                  className="w-full px-4 py-2 border border-gray-300 dark:border-gray-700 rounded-lg bg-white dark:bg-gray-800 text-gray-900 dark:text-white placeholder-gray-400 dark:placeholder-gray-500 focus:outline-none focus:border-black dark:focus:border-white transition-colors"
                   placeholder="e.g., Cream"
                 />
               </div>
               <div>
-                <label className={`${raleway.className} text-sm font-medium text-gray-700 block mb-1`}>
+                <label className={`${raleway.className} text-sm font-medium text-gray-700 dark:text-gray-300 block mb-1`}>
                   Scent
                 </label>
                 <input
                   type="text"
                   name="scent"
-                  value={formData.scent}  //  Shows current scent
+                  value={formData.scent}
                   onChange={handleChange}
-                  className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:border-black transition-colors"
+                  className="w-full px-4 py-2 border border-gray-300 dark:border-gray-700 rounded-lg bg-white dark:bg-gray-800 text-gray-900 dark:text-white placeholder-gray-400 dark:placeholder-gray-500 focus:outline-none focus:border-black dark:focus:border-white transition-colors"
                   placeholder="e.g., Light Floral"
                 />
               </div>
@@ -429,28 +428,28 @@ export default function EditProductPage() {
 
             <div className="grid grid-cols-2 gap-4">
               <div>
-                <label className={`${raleway.className} text-sm font-medium text-gray-700 block mb-1`}>
+                <label className={`${raleway.className} text-sm font-medium text-gray-700 dark:text-gray-300 block mb-1`}>
                   Color
                 </label>
                 <input
                   type="text"
                   name="color"
-                  value={formData.color}  //  Shows current color
+                  value={formData.color}
                   onChange={handleChange}
-                  className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:border-black transition-colors"
+                  className="w-full px-4 py-2 border border-gray-300 dark:border-gray-700 rounded-lg bg-white dark:bg-gray-800 text-gray-900 dark:text-white placeholder-gray-400 dark:placeholder-gray-500 focus:outline-none focus:border-black dark:focus:border-white transition-colors"
                   placeholder="e.g., White"
                 />
               </div>
               <div>
-                <label className={`${raleway.className} text-sm font-medium text-gray-700 block mb-1`}>
+                <label className={`${raleway.className} text-sm font-medium text-gray-700 dark:text-gray-300 block mb-1`}>
                   Packaging
                 </label>
                 <input
                   type="text"
                   name="packaging"
-                  value={formData.packaging}  //  Shows current packaging
+                  value={formData.packaging}
                   onChange={handleChange}
-                  className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:border-black transition-colors"
+                  className="w-full px-4 py-2 border border-gray-300 dark:border-gray-700 rounded-lg bg-white dark:bg-gray-800 text-gray-900 dark:text-white placeholder-gray-400 dark:placeholder-gray-500 focus:outline-none focus:border-black dark:focus:border-white transition-colors"
                   placeholder="e.g., Jar"
                 />
               </div>
@@ -459,22 +458,22 @@ export default function EditProductPage() {
 
           {/* Stock Information */}
           <div className="space-y-4 mt-6">
-            <h2 className={`${playfair.className} text-xl font-light text-black`}>
+            <h2 className={`${playfair.className} text-xl font-light text-black dark:text-white`}>
               Stock Information
             </h2>
 
             <div className="grid grid-cols-2 gap-4">
               <div>
-                <label className={`${raleway.className} text-sm font-medium text-gray-700 block mb-1`}>
+                <label className={`${raleway.className} text-sm font-medium text-gray-700 dark:text-gray-300 block mb-1`}>
                   Stock Quantity *
                 </label>
                 <input
                   type="number"
                   name="stockQuantity"
-                  value={formData.stockQuantity}  //  Shows current stock
+                  value={formData.stockQuantity}
                   onChange={handleChange}
                   required
-                  className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:border-black transition-colors"
+                  className="w-full px-4 py-2 border border-gray-300 dark:border-gray-700 rounded-lg bg-white dark:bg-gray-800 text-gray-900 dark:text-white placeholder-gray-400 dark:placeholder-gray-500 focus:outline-none focus:border-black dark:focus:border-white transition-colors"
                   placeholder="45"
                 />
               </div>
@@ -483,11 +482,11 @@ export default function EditProductPage() {
                   <input
                     type="checkbox"
                     name="isInStock"
-                    checked={formData.isInStock}  //  Shows current stock status
+                    checked={formData.isInStock}
                     onChange={handleChange}
                     className="w-4 h-4"
                   />
-                  <span className={`${raleway.className} text-sm text-gray-700`}>
+                  <span className={`${raleway.className} text-sm text-gray-700 dark:text-gray-300`}>
                     In Stock
                   </span>
                 </label>
@@ -496,18 +495,18 @@ export default function EditProductPage() {
           </div>
 
           {/* Submit Buttons */}
-          <div className="flex gap-3 pt-6 mt-6 border-t border-gray-100">
+          <div className="flex gap-3 pt-6 mt-6 border-t border-gray-100 dark:border-gray-800">
             <button
               type="button"
               onClick={() => router.push("/Admin/dashboard")}
-              className="flex-1 px-4 py-2.5 border border-gray-300 rounded-lg hover:bg-gray-50 transition-colors text-sm"
+              className="flex-1 px-4 py-2.5 border border-gray-300 dark:border-gray-700 text-gray-900 dark:text-white rounded-lg hover:bg-gray-50 dark:hover:bg-gray-800 transition-colors text-sm"
             >
               Cancel
             </button>
             <button
               type="submit"
               disabled={submitting}
-              className="flex-1 px-4 py-2.5 bg-black text-white rounded-lg hover:bg-gray-800 transition-colors disabled:opacity-50 disabled:cursor-not-allowed text-sm"
+              className="flex-1 px-4 py-2.5 bg-black dark:bg-white text-white dark:text-gray-900 rounded-lg hover:bg-gray-800 dark:hover:bg-gray-200 transition-colors disabled:opacity-50 disabled:cursor-not-allowed text-sm"
             >
               {submitting ? "Updating..." : "Update Product"}
             </button>

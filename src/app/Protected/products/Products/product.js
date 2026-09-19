@@ -110,16 +110,16 @@ export default function Products() {
   ];
 
   return (
-    <div className="min-h-screen bg-white">
+    <div className="min-h-screen bg-white dark:bg-gray-950 transition-colors">
       {/* Hero Section - Minimal & Sophisticated */}
-      <div className="relative bg-black text-white py-20 md:py-28">
+      <div className="relative bg-black dark:bg-white text-white dark:text-gray-900 py-20 md:py-28 transition-colors">
         <div className="absolute inset-0 opacity-5">
-          <div className="absolute top-0 right-0 w-96 h-96 bg-white rounded-full blur-3xl"></div>
-          <div className="absolute bottom-0 left-0 w-64 h-64 bg-white rounded-full blur-3xl"></div>
+          <div className="absolute top-0 right-0 w-96 h-96 bg-white dark:bg-gray-900 rounded-full blur-3xl"></div>
+          <div className="absolute bottom-0 left-0 w-64 h-64 bg-white dark:bg-gray-900 rounded-full blur-3xl"></div>
         </div>
         <div className="container mx-auto px-4 max-w-7xl relative z-10">
           <div className="text-center">
-            <span className={`${raleway.className} text-xs tracking-[0.3em] uppercase text-gray-400 mb-4 block`}>
+            <span className={`${raleway.className} text-xs tracking-[0.3em] uppercase text-gray-400 dark:text-gray-500 mb-4 block`}>
               Curated Collection
             </span>
             <h1
@@ -127,9 +127,9 @@ export default function Products() {
             >
               OUR PRODUCTS
             </h1>
-            <div className="w-12 h-0.5 bg-white/60 mx-auto mb-4"></div>
+            <div className="w-12 h-0.5 bg-white/60 dark:bg-gray-900/60 mx-auto mb-4"></div>
             <p
-              className={`${raleway.className} text-sm md:text-base font-light text-gray-400 tracking-wider`}
+              className={`${raleway.className} text-sm md:text-base font-light text-gray-400 dark:text-gray-500 tracking-wider`}
             >
               WHERE SCIENCE MEETS NATURE
             </p>
@@ -138,27 +138,27 @@ export default function Products() {
       </div>
 
       {/*  Auth Status Bar - Shows user status */}
-      <div className="border-b border-gray-100 bg-gray-50/50">
+      <div className="border-b border-gray-100 dark:border-gray-800 bg-gray-50/50 dark:bg-gray-900/50 transition-colors">
         <div className="container mx-auto px-4 max-w-7xl py-3">
           <div className="flex items-center justify-between flex-wrap gap-2">
             <div className="flex items-center gap-3">
-              <span className={`${raleway.className} text-xs text-gray-400 uppercase tracking-wider`}>
+              <span className={`${raleway.className} text-xs text-gray-400 dark:text-gray-500 uppercase tracking-wider`}>
                 {loading ? "Checking..." : isLoggedIn ? "👋 Welcome back!" : "👤 Guest"}
               </span>
               {isLoggedIn && user && (
-                <span className={`${raleway.className} text-xs text-black font-medium`}>
+                <span className={`${raleway.className} text-xs text-black dark:text-white font-medium`}>
                   {user.name || user.email || "User"}
                 </span>
               )}
             </div>
             <div className="flex items-center gap-3">
               {isLoggedIn ? (
-                <span className="inline-flex items-center gap-1.5 px-3 py-1 bg-green-50 text-green-700 text-[10px] uppercase tracking-wider border border-green-200 rounded-full">
+                <span className="inline-flex items-center gap-1.5 px-3 py-1 bg-green-50 dark:bg-green-950/50 text-green-700 dark:text-green-400 text-[10px] uppercase tracking-wider border border-green-200 dark:border-green-800 rounded-full">
                   <span className="w-1.5 h-1.5 bg-green-500 rounded-full"></span>
                   Authenticated
                 </span>
               ) : (
-                <span className="inline-flex items-center gap-1.5 px-3 py-1 bg-yellow-50 text-yellow-700 text-[10px] uppercase tracking-wider border border-yellow-200 rounded-full">
+                <span className="inline-flex items-center gap-1.5 px-3 py-1 bg-yellow-50 dark:bg-yellow-950/50 text-yellow-700 dark:text-yellow-400 text-[10px] uppercase tracking-wider border border-yellow-200 dark:border-yellow-800 rounded-full">
                   <span className="w-1.5 h-1.5 bg-yellow-500 rounded-full"></span>
                   Guest Mode
                 </span>
@@ -178,7 +178,7 @@ export default function Products() {
               className="group relative overflow-hidden rounded-none cursor-pointer"
             >
               {/* Image Container */}
-              <div className="relative h-[500px] overflow-hidden bg-gray-50">
+              <div className="relative h-[500px] overflow-hidden bg-gray-50 dark:bg-gray-800 transition-colors">
                 <Image
                   src={product.image}
                   alt={product.name}
@@ -235,11 +235,11 @@ export default function Products() {
         {isLoggedIn && (
           <div className="mt-20">
             <div className="text-center mb-12">
-              <h2 className={`${playfair.className} text-3xl md:text-4xl font-light text-black`}>
+              <h2 className={`${playfair.className} text-3xl md:text-4xl font-light text-black dark:text-white`}>
                 Featured Categories
               </h2>
-              <div className="w-12 h-0.5 bg-black/20 mx-auto mt-4"></div>
-              <p className={`${raleway.className} text-sm text-gray-400 mt-3`}>
+              <div className="w-12 h-0.5 bg-black/20 dark:bg-white/20 mx-auto mt-4"></div>
+              <p className={`${raleway.className} text-sm text-gray-400 dark:text-gray-500 mt-3`}>
                 Curated collections for our valued members
               </p>
             </div>
@@ -251,20 +251,20 @@ export default function Products() {
                   description: "Premium supplements for muscle growth, recovery, and peak physical performance",
                   icon: "💪",
                   slug: "body-enhancement",
-                  bg: "bg-black",
+                  bg: "bg-black dark:bg-white",
                 },
                 {
                   name: "Aphrodisiacs",
                   description: "Natural blends to enhance intimacy, boost libido, and improve overall vitality",
                   icon: "❤️‍🔥",
                   slug: "aphrodisiacs",
-                  bg: "bg-gray-800",
+                  bg: "bg-gray-800 dark:bg-gray-200",
                 },
               ].map((category) => (
                 <Link
                   key={category.slug}
                   href={`/Protected/products/${category.slug}`}
-                  className={`${category.bg} text-white p-10 rounded-2xl transition-all duration-300 hover:scale-105 hover:shadow-2xl group`}
+                  className={`${category.bg} text-white dark:text-gray-900 p-10 rounded-2xl transition-all duration-300 hover:scale-105 hover:shadow-2xl group`}
                 >
                   <div className="flex flex-col items-center text-center">
                     <div className="text-6xl mb-4 group-hover:scale-110 transition-transform duration-300">
@@ -273,10 +273,10 @@ export default function Products() {
                     <h3 className={`${playfair.className} text-2xl md:text-3xl font-light mb-3`}>
                       {category.name}
                     </h3>
-                    <p className={`${raleway.className} text-sm font-light text-white/70 max-w-md`}>
+                    <p className={`${raleway.className} text-sm font-light text-white/70 dark:text-gray-700 max-w-md`}>
                       {category.description}
                     </p>
-                    <div className="mt-6 inline-flex items-center gap-2 text-sm font-light tracking-wider border-b border-white/30 pb-1 hover:border-white transition-colors duration-300">
+                    <div className="mt-6 inline-flex items-center gap-2 text-sm font-light tracking-wider border-b border-white/30 dark:border-gray-900/30 pb-1 hover:border-white dark:hover:border-gray-900 transition-colors duration-300">
                       Explore Collection
                       <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M17 8l4 4m0 0l-4 4m4-4H3" />
@@ -292,25 +292,25 @@ export default function Products() {
         {/*  Guest User Message */}
         {!isLoggedIn && !loading && (
           <div className="mt-20 text-center">
-            <div className="max-w-2xl mx-auto bg-gray-50 rounded-2xl p-8 border border-gray-100">
+            <div className="max-w-2xl mx-auto bg-gray-50 dark:bg-gray-900 rounded-2xl p-8 border border-gray-100 dark:border-gray-800 transition-colors">
               <div className="text-4xl mb-4">🔒</div>
-              <h3 className={`${playfair.className} text-2xl font-light text-black mb-2`}>
+              <h3 className={`${playfair.className} text-2xl font-light text-black dark:text-white mb-2`}>
                 Members Get More
               </h3>
-              <p className={`${raleway.className} text-sm text-gray-500 mb-4`}>
+              <p className={`${raleway.className} text-sm text-gray-500 dark:text-gray-400 mb-4`}>
                 Sign in to access exclusive products, special offers, and personalized recommendations.
               </p>
               <div className="flex items-center justify-center gap-4">
                 <button
                   onClick={() => {/* Handle login */}}
-                  className="px-6 py-2 bg-black text-white text-xs uppercase tracking-wider hover:bg-gray-800 transition-colors"
+                  className="px-6 py-2 bg-black dark:bg-white text-white dark:text-gray-900 text-xs uppercase tracking-wider hover:bg-gray-800 dark:hover:bg-gray-200 transition-colors"
                 >
                   Sign In
                 </button>
-                <span className={`${raleway.className} text-xs text-gray-300`}>or</span>
+                <span className={`${raleway.className} text-xs text-gray-300 dark:text-gray-600`}>or</span>
                 <button
                   onClick={() => {/* Handle signup */}}
-                  className="px-6 py-2 border border-gray-300 text-black text-xs uppercase tracking-wider hover:border-black transition-colors"
+                  className="px-6 py-2 border border-gray-300 dark:border-gray-700 text-black dark:text-white text-xs uppercase tracking-wider hover:border-black dark:hover:border-white transition-colors"
                 >
                   Create Account
                 </button>
@@ -322,11 +322,11 @@ export default function Products() {
         {/* Bottom Section - Refined */}
         <div className="mt-20 text-center">
           <div className="max-w-2xl mx-auto">
-            <div className="w-12 h-0.5 bg-black/20 mx-auto mb-6"></div>
-            <p className={`${raleway.className} text-xs uppercase tracking-[0.3em] text-gray-400`}>
+            <div className="w-12 h-0.5 bg-black/20 dark:bg-white/20 mx-auto mb-6"></div>
+            <p className={`${raleway.className} text-xs uppercase tracking-[0.3em] text-gray-400 dark:text-gray-500`}>
               Conscious Beauty. Sustainable Wellness.
             </p>
-            <p className={`${raleway.className} text-sm font-light text-gray-400 mt-2 tracking-wide`}>
+            <p className={`${raleway.className} text-sm font-light text-gray-400 dark:text-gray-500 mt-2 tracking-wide`}>
               Every product is crafted with integrity, for you and the planet.
             </p>
           </div>
