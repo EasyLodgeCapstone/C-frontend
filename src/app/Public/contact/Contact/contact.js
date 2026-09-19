@@ -25,9 +25,9 @@ const caveat = Caveat({
 export default function ContactPage() {
   // Replace with your actual contact details
   const contactInfo = {
-    phoneNumber: "+2348012345678", // Nigeria country code + 10 digits
+    phoneNumber: "+2347083910488", // Nigeria country code + 10 digits
     email: "ezehgodwin3942@gmail.com",
-    whatsappLink: "https://wa.me/2348012345678",
+    whatsappLink: "https://wa.me/2347083910488",
     gmailLink: "https://mail.google.com/mail/?view=cm&fs=1&to=",
   };
 
